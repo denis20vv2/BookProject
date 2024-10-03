@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,6 +42,11 @@ public class BookService {
     }
 
     public BookView create(Book book) {
+
+
+        if (book == null)  {
+            throw new HttpMessageNotReadableException("Book don t have parametrs");
+        }
 
         Author author = book.getAuthor();
 
@@ -79,12 +85,15 @@ public class BookService {
     //    @Transactional
 
     public void deleteBook(Long bookId) {
-        try {
+        if (bookRep.findById(bookId).isPresent())  {
             bookRep.deleteById(bookId);
-        } catch (EmptyResultDataAccessException e) {
+        }
+        else {
             throw new EntityNotFoundException("Book with id not found");
         }
     }
+
+
 
     public List<BookView> getFirstTenBooks() {
 

@@ -1,17 +1,24 @@
 package com.example.books.authors;
 
 import com.example.books.books.Book;
+import com.example.books.error.Error;
 import com.example.books.books.BookRep;
-import com.example.books.books.BookView;
+import com.example.books.error.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+
+
+
 
 @RestController
 @RequestMapping("/author")
@@ -50,7 +57,7 @@ public class AuthorController {
     @PutMapping("/{authorId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public AuthorsView updateBook(@PathVariable Long authorId, @RequestBody Author updatedAuthor) {
+    public AuthorsView updateAuthor(@PathVariable Long authorId, @RequestBody Author updatedAuthor) {
         Author author = service.getAuthor(authorId);
         author.setAuthorName(updatedAuthor.getAuthorName());
         Set<Book> updatedBooks = updatedAuthor.getBooks();
@@ -85,5 +92,19 @@ public class AuthorController {
         return service.getFirstTenAuthors();
     }
 
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Error> handleNotFoundException(EntityNotFoundException exception) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new Error(exception.getMessage()));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Error> handleExceptionNotParametersException(HttpMessageNotReadableException exception) {
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(new Error(exception.getMessage()));
+    }
 
 }

@@ -2,13 +2,12 @@ package com.example.books.authors;
 
 import com.example.books.books.Book;
 import com.example.books.books.BookRep;
-import com.example.books.books.BookToBookViewConverter;
-import com.example.books.books.BookView;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class AuthorService {
 
     public Author getAuthor(Long authorId) {
         return authorRep.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Book with id" + authorId + "not found"));
     }
 
     public AuthorsView getViewAuthor(Long authorId) {
@@ -43,23 +42,29 @@ public class AuthorService {
 
     public AuthorsView create(Author author) {
 
-        Set<Book> books = author.getBooks();
+        if (author == null)  {
+            throw new HttpMessageNotReadableException("Author don t have parametrs");
+        }
+        else {
 
-        if (books != null && !books.isEmpty()) {
-            Set<Book> existingBooks = null;
-            for (Book existingBook : books) {
+            Set<Book> books = author.getBooks();
 
-                if (existingBook.getBookId() != null) {
-                    Book findBook = bookRep.findById(existingBook.getBookId())
-                            .orElseThrow(() -> new EntityNotFoundException("Book with id not found"));
+            if (books != null && !books.isEmpty()) {
+                Set<Book> existingBooks = null;
+                for (Book existingBook : books) {
 
-                    findBook.setBookName(existingBook.getBookName());
-                    existingBooks.add(findBook);
-                } else {
-                    throw new IllegalArgumentException("Book ID is required for update");
+                    if (existingBook.getBookId() != null) {
+                        Book findBook = bookRep.findById(existingBook.getBookId())
+                                .orElseThrow(() -> new EntityNotFoundException("Book with id not found"));
+
+                        findBook.setBookName(existingBook.getBookName());
+                        existingBooks.add(findBook);
+                    } else {
+                        throw new EntityNotFoundException("Book ID is required for update");
+                    }
                 }
+                author.setBooks(existingBooks);
             }
-            author.setBooks(existingBooks);
         }
 
         return authorToAuthorViewsConverter.convert(authorRep.save(author));
@@ -74,9 +79,9 @@ public class AuthorService {
     //    @Transactional
 
     public void deleteAuthor(Long authorId) {
-        try {
+        if (authorRep.findById(authorId).isPresent())  {
             authorRep.deleteById(authorId);
-        } catch (EmptyResultDataAccessException e) {
+        } else {
             throw new EntityNotFoundException("Author with id not found");
         }
     }
@@ -90,6 +95,10 @@ public class AuthorService {
         sortedAuthors.forEach(author -> views.add(authorToAuthorViewsConverter.convert(author)));
 
         return new ArrayList<>(views);
+
+
+
+       // return new ArrayList<>(views);
     }
 
 }
