@@ -1,0 +1,386 @@
+openapi: 3.0.0
+info:
+  title: books
+  version: 1.1.0
+servers:
+- url: http://localhost:8080
+paths:
+  /author/{authorId}:
+    get:
+      tags:
+      - Методы класса автор
+      summary: Получить автора по id
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID автора
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Author'
+    post:
+      tags:
+      - Методы класса автор
+      summary: Обновить автора
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID автора
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Author'
+    delete:
+      tags:
+      - Методы класса автор
+      summary: Удалить автора
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID автора
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Author'
+
+  /author/sortByName:
+    get:
+      tags:
+      - Методы класса автор
+      summary: Получение 10 авторов с сортировкой
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Authors'
+
+  /author:
+    post:
+      tags:
+      - Методы класса автор
+      summary: Создать автора
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Author'
+                
+  /book/{bookId}:
+    get:
+      tags:
+      - Методы класса book
+      summary: Получить книгу по id
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID книги
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+    post:
+      tags:
+      - Методы класса book
+      summary: Обновить книгу
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID книги
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+    delete:
+      tags:
+      - Методы класса book
+      summary: Удалить книгу
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID книги
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /book/sortByName:
+    get:
+      tags:
+      - Методы класса book
+      summary: Получение 10 книг с сортировкой
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Не найден запрашиваемый ресурс.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Books'
+
+  /book:
+    post:
+      tags:
+      - Методы класса book
+      summary: Создать книгу
+      responses:
+        "400":
+          description: "Не хватает обязательных параметров"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "Внутренняя ошибка сервера, сбой."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+
+    Authors:
+      type: array
+      items:
+        $ref: '#/components/schemas/Author'
+      
+    Author:
+      type: object
+      required:
+        - authorName
+        - authorId
+      properties:
+        authorName:
+          type: string
+        authorId:
+          type: integer
+          format: int64
+        books:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Book'
+
+    Book:
+      type: object
+      properties:
+        bookName:
+          type: string
+        bookId:
+          type: integer
+          format: int64
+        authors:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Author'
+          
+    Books:
+      type: array
+      items:
+        $ref: '#/components/schemas/Book'
+  
