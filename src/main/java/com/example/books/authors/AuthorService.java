@@ -32,7 +32,7 @@ public class AuthorService {
 
     public Author getAuthor(Long authorId) {
         return authorRep.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id" + authorId + "not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Author with id " + authorId + " not found"));
     }
 
     public AuthorsView getViewAuthor(Long authorId) {
