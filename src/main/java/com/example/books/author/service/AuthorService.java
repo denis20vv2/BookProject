@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AuthorService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
@@ -30,11 +31,6 @@ public class AuthorService {
     private final BookRep bookRep;
     private final AuthorRep authorRep;
 
-    public AuthorService(AuthorToAuthorViewsConverter authorToAuthorViewsConverter, BookRep bookRep, AuthorRep authorRep) {
-        this.authorToAuthorViewsConverter = authorToAuthorViewsConverter;
-        this.bookRep = bookRep;
-        this.authorRep = authorRep;
-    }
 
     public Author getAuthor(Long authorId) {
         return authorRep.findById(authorId)

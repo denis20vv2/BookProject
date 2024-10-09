@@ -6,6 +6,7 @@ import com.example.books.book.web.BookView;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@AllArgsConstructor
 public class BookService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
@@ -25,12 +27,6 @@ public class BookService {
     private final BookToBookViewConverter bookToBookViewConverter;
     private final BookRep bookRep;
     private final AuthorRep authorRep;
-
-    public BookService(BookToBookViewConverter bookToBookViewConverter, BookRep bookRep, AuthorRep authorRep) {
-        this.bookToBookViewConverter = bookToBookViewConverter;
-        this.bookRep = bookRep;
-        this.authorRep = authorRep;
-    }
 
     public Book getBook(Long id) {
         return bookRep.findById(id)

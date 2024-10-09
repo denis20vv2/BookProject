@@ -5,6 +5,8 @@ import com.example.books.book.service.BookService;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 import com.example.books.error.Error;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/book")
+@Tag(name="Book")
 public class BookController {
     BookRep bookRep;
 
@@ -38,6 +41,10 @@ public class BookController {
 
     @GetMapping("/{bookId}")
     @ResponseBody
+    @Operation(
+            summary = "Получение книги по ID",
+            description = "Позволяет зарегистрировать пользователя"
+    )
     public BookView getBookById(@PathVariable Long bookId) {
         logger.info("Получен запрос на получение книги с ID: {}", bookId);
         return service.getViewBook(bookId);
@@ -46,6 +53,9 @@ public class BookController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
+    @Operation(
+            summary = "Создание книги"
+    )
     public BookView create(@RequestBody Book book) {
         return service.create(book);
     }
@@ -53,6 +63,9 @@ public class BookController {
     @PutMapping("/{bookId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
+    @Operation(
+            summary = "Обновление книги"
+    )
     public BookView updateBook(@PathVariable Long bookId, @RequestBody Book updatedBook) {
         Book book = service.getBook(bookId);
         book.setBookName(updatedBook.getBookName());
@@ -71,12 +84,18 @@ public class BookController {
 
     @DeleteMapping("/{bookId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(
+            summary = "Удаление книги"
+    )
     public void deleteBook(@PathVariable Long bookId){
         service.deleteBook(bookId);
     }
 
     @GetMapping("/sortByName")
     @ResponseBody
+    @Operation(
+            summary = "Получение 4х книг с сортировкой по названию в алфаватином порядке"
+    )
     public List<BookView> getSortBooks() {
         return service.getFirstTenBooks();
     }
