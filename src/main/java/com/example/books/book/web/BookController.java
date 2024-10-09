@@ -1,31 +1,31 @@
-package com.example.books.books;
+package com.example.books.book.web;
 
-import com.example.books.authors.AuthorRep;
+import com.example.books.author.rep.AuthorRep;
+import com.example.books.book.service.BookService;
+import com.example.books.book.domain.Book;
+import com.example.books.book.rep.BookRep;
 import com.example.books.error.Error;
-import com.example.books.error.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.example.books.authors.Author;
+import com.example.books.author.domain.Author;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/book")
-public class BooksController {
+public class BookController {
     BookRep bookRep;
 
-    private static final Logger logger = LoggerFactory.getLogger(BooksController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private final BookService service;
      AuthorRep authorRep;
 
-    public BooksController(BookService service) {
+    public BookController(BookService service) {
         this.service = service;
     }
 

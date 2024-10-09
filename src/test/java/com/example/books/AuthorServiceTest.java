@@ -1,10 +1,9 @@
 package com.example.books;
 
-import com.example.books.authors.Author;
-import com.example.books.authors.AuthorRep;
+import com.example.books.author.domain.Author;
+import com.example.books.author.rep.AuthorRep;
 
-import com.example.books.authors.AuthorService;
-import com.example.books.books.Book;
+import com.example.books.author.service.AuthorService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

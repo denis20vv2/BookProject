@@ -1,9 +1,6 @@
-package com.example.books.books;
+package com.example.books.book.web;
 
-import com.example.books.authors.Author;
-import com.example.books.authors.AuthorView;
-import java.util.HashSet;
-import java.util.Set;
+import com.example.books.author.web.AuthorView;
 
 public class BookView {
     private Long bookId;

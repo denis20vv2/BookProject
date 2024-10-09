@@ -1,9 +1,26 @@
- alter table if exists books drop constraint if exists FKfjixh2vym2cvfj3ufxj91jem7
- drop table if exists authors cascade
- drop table if exists books cascade
- drop sequence if exists authors_seq
- drop sequence if exists books_seq
- create sequence authors_seq start with 1 increment by 1
- create sequence books_seq start with 1 increment by 1
- create table authors (author_id bigint not null, author_name varchar(255) not null, primary key (author_id))
- create table books (author_id bigint not null, book_id bigint not null, book_name varchar(255) not null, primary key (book_id))
+ drop table if exists author cascade;
+ drop table if exists book cascade;
+ drop sequence if exists author_seq;
+ drop sequence if exists book_seq;
+
+ create sequence author_seq
+ start with 1
+ increment by 1;
+
+
+ create sequence book_seq
+ start with 1
+ increment by 1;
+
+
+ create table author (
+ author_id bigint not null DEFAULT nextval('author_seq'),
+ author_name varchar(255) not null,
+ primary key (author_id));
+
+ create table book (
+ author_id bigint not null,
+ book_id bigint not null DEFAULT nextval('book_seq'),
+ book_name varchar(255) not null,
+ FOREIGN KEY (author_id) REFERENCES author(author_id),
+ primary key (book_id));

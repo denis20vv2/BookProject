@@ -1,6 +1,6 @@
 package com.example.books;
 
-import com.example.books.books.BooksController;
+import com.example.books.book.web.BookController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class BooksApplication {
 
-	private static final Logger logger = LoggerFactory.getLogger(BooksController.class);
+	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(BooksApplication.class, args);

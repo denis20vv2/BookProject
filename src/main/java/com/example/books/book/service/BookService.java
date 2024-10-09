@@ -1,18 +1,19 @@
-package com.example.books.books;
-import com.example.books.authors.Author;
-import com.example.books.authors.AuthorRep;
+package com.example.books.book.service;
+import com.example.books.author.domain.Author;
+import com.example.books.author.rep.AuthorRep;
+import com.example.books.book.converter.BookToBookViewConverter;
+import com.example.books.book.web.BookView;
+import com.example.books.book.domain.Book;
+import com.example.books.book.rep.BookRep;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 

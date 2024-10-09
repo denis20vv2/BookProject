@@ -1,7 +1,6 @@
-package com.example.books.authors;
+package com.example.books.author.web;
 
-import com.example.books.books.BookView;
-import com.example.books.books.BooksView;
+import com.example.books.book.web.BooksView;
 
 import java.util.Set;
 

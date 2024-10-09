@@ -1,4 +1,4 @@
-package com.example.books.books;
+package com.example.books.book.web;
 
 public class BooksView {
     private String bookName;

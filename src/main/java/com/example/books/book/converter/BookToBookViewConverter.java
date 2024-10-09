@@ -1,16 +1,12 @@
-package com.example.books.books;
+package com.example.books.book.converter;
 
-import com.example.books.authors.Author;
-import com.example.books.authors.AuthorToAuthorViewConverter;
-import com.example.books.authors.AuthorView;
+import com.example.books.author.domain.Author;
+import com.example.books.author.converter.AuthorToAuthorViewConverter;
+import com.example.books.book.web.BookView;
+import com.example.books.book.domain.Book;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
-import com.example.books.books.Book;
-import com.example.books.books.BookView;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class BookToBookViewConverter implements Converter<Book, BookView> {

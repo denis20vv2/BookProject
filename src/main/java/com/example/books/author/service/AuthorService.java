@@ -1,11 +1,17 @@
-package com.example.books.authors;
+package com.example.books.author.service;
 
-import com.example.books.books.Book;
-import com.example.books.books.BookRep;
+import com.example.books.author.rep.AuthorRep;
+import com.example.books.author.web.AuthorsView;
+import com.example.books.author.converter.AuthorToAuthorViewsConverter;
+import com.example.books.author.domain.Author;
+import com.example.books.book.domain.Book;
+import com.example.books.book.rep.BookRep;
+import com.example.books.book.service.BookService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
@@ -18,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class AuthorService {
 
-    private static final Logger logger = LoggerFactory.getLogger(com.example.books.books.BookService.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookService.class);
 
     private final AuthorToAuthorViewsConverter authorToAuthorViewsConverter;
     private final BookRep bookRep;

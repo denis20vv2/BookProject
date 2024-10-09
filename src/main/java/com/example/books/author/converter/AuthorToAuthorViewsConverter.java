@@ -1,8 +1,10 @@
-package com.example.books.authors;
+package com.example.books.author.converter;
 
-import com.example.books.books.Book;
-import com.example.books.books.BookToBooksViewConverter;
-import com.example.books.books.BooksView;
+import com.example.books.author.web.AuthorsView;
+import com.example.books.author.domain.Author;
+import com.example.books.book.domain.Book;
+import com.example.books.book.converter.BookToBooksViewConverter;
+import com.example.books.book.web.BooksView;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;

@@ -1,24 +1,20 @@
-package com.example.books.authors;
+package com.example.books.author.converter;
 
-import com.example.books.books.Book;
-import com.example.books.authors.Author;
-import com.example.books.authors.AuthorView;
-import com.example.books.books.BookToBookViewConverter;
-import com.example.books.books.BookView;
+import com.example.books.author.web.AuthorView;
+import com.example.books.author.domain.Author;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Component
+@NoArgsConstructor
 public class AuthorToAuthorViewConverter implements Converter<Author, AuthorView> {
 
 
 
-    public AuthorToAuthorViewConverter() {
-    }
+
 
     @Override
     public AuthorView convert(@NonNull Author author) {
