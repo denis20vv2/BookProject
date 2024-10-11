@@ -24,6 +24,19 @@ INSERT INTO book (book_name, author_id) VALUES
 ('book9', 9),
 ('book10', 10);
 
+INSERT INTO author_book (book_id, author_id) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+
 
 
 

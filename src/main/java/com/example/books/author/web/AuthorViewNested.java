@@ -8,6 +8,5 @@ import lombok.Setter;
 public class AuthorViewNested {
 
     private String authorName;
-    private Long authorId;
 
 }

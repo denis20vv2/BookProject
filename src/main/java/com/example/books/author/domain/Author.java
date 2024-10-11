@@ -19,9 +19,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class Author {
 
-    @OneToMany (mappedBy = "author",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "author_book",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
     private Set<Book> books = new HashSet<>();
 
         @Id

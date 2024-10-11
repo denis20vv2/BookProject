@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -50,18 +51,18 @@ public class BookService {
             throw new HttpMessageNotReadableException("Book don t have parametrs");
         }
 
-        Author author = book.getAuthor();
+        Set<Author> authors = book.getAuthors();
 
-        if (author != null) {
+       /* if (authors != null) {
             Author existingAuthor = null;
             logger.info("Author  != null");
 
 
-            if (author.getAuthorId() == null && author.getAuthorName() != null) {
+            if (authors.getAuthorId() == null && authors.getAuthorName() != null) {
                 existingAuthor = authorRep.findByAuthorName(author.getAuthorName());
                 logger.info("Search for the author by name ");
-            } else if (author.getAuthorId() != null) {
-                existingAuthor = authorRep.findByAuthorId(author.getAuthorId());
+            } else if (authors.getAuthorId() != null) {
+                existingAuthor = authorRep.findByAuthorId(authors.getAuthorId());
                 logger.info("Search for the author by id ");
             }
 
@@ -72,22 +73,22 @@ public class BookService {
                 authorRep.save(author);
                 logger.info("Author save");
             }
-        }
+        }*/
 
         return bookToBookViewConverter.convert(bookRep.save(book));
     }
 
-    private Book prepare(Book book, BookBaseReq req) {
+    /*private Book prepare(Book book, BookBaseReq req) {
         book.setBookName(req.getBookName());
         book.setAuthor(req.getAuthor());
         /*List<Player> playerList = playerRepo.findAllById(req.getPlayers()
                 .stream()
                 .map(BaseRequest.Id::getId)
-                .collect(Collectors.toSet()));*/
+                .collect(Collectors.toSet()));
         //Set<Player> players = new HashSet<>(playerList);
         //event.setPlayers(players);
         return book;
-    }
+    }*/
 
     public BookView update(Long bookId, Book updatedBook) {
 
@@ -97,10 +98,10 @@ public class BookService {
             book.setBookName(updatedBook.getBookName());
         }
 
-        Author author = updatedBook.getAuthor();
+        Set<Author> authors = updatedBook.getAuthors();
 
-        if(updatedBook.getBookName() != null && authorRep.findById(author.getAuthorId()) != null){
-            book.setAuthor(updatedBook.getAuthor());
+        /*if(updatedBook.getBookName() != null && authorRep.findById(authors.getAuthorId()) != null){
+            book.setAuthors(updatedBook.getAuthors());
         }
 
         ///////////////////////////////////

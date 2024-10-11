@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "book")
 @Getter
@@ -33,8 +36,7 @@ public class Book {
     @Column(nullable = false)
     private String bookName;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="author_id", nullable = false)
-    private Author author;
+    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Author> authors = new HashSet<>();
 
 }
