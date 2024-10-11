@@ -1,20 +1,16 @@
 package com.example.books.error;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class Error {
 
     String message;
 
 
-    public Error(String message) {
-        this.message = message;
-    }
-
-    public String getError() {
-        return message;
-    }
-
-    public void setError(String message) {
-        this.message = message;
-    }
 
 }

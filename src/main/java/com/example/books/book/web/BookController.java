@@ -1,6 +1,7 @@
 package com.example.books.book.web;
 
 import com.example.books.author.rep.AuthorRep;
+import com.example.books.author.web.AuthorReqForBook;
 import com.example.books.book.service.BookService;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
@@ -8,6 +9,8 @@ import com.example.books.error.Error;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,23 +24,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/book")
 @Tag(name="Book")
+@RequiredArgsConstructor
 public class BookController {
-    BookRep bookRep;
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private final BookService service;
-     AuthorRep authorRep;
-
-    public BookController(BookService service) {
-        this.service = service;
-    }
-
-    public void authorRep(AuthorRep authorRep) {
-        this.authorRep = authorRep;
-    }
-    public void bookRep(BookRep bookRep) {
-        this.bookRep = bookRep;
-    }
 
     @GetMapping("/{bookId}")
     @ResponseBody
@@ -67,18 +58,7 @@ public class BookController {
             summary = "Обновление книги"
     )
     public BookView updateBook(@PathVariable Long bookId, @RequestBody Book updatedBook) {
-        Book book = service.getBook(bookId);
-        book.setBookName(updatedBook.getBookName());
-
-        Author updatedAuthor = updatedBook.getAuthor();
-
-        if (updatedAuthor != null && updatedAuthor.getAuthorId() != null) {
-            Author existingAuthor = authorRep.findById(updatedAuthor.getAuthorId())
-                    .orElseThrow(() -> new EntityNotFoundException("Book with id  not found"));
-
-            book.setAuthor(existingAuthor);
-        }
-        return service.update(book);
+        return service.update(bookId, updatedBook);
     }
 
 

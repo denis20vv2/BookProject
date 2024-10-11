@@ -1,14 +1,11 @@
 package com.example.books;
 
-import com.example.books.author.domain.Author;
 import com.example.books.author.rep.AuthorRep;
-import com.example.books.author.converter.AuthorToAuthorViewConverter;
-import com.example.books.author.web.AuthorView;
+import com.example.books.author.converter.AuthorToAuthorViewNestedConverter;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 import com.example.books.book.converter.BookToBookViewConverter;
 import com.example.books.book.service.BookService;
-import com.example.books.book.web.BookView;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,9 +18,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
-
-
-import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +35,7 @@ public class BookServiceTest {
         private BookToBookViewConverter bookToBookViewConverter;
 
         @Mock
-        private AuthorToAuthorViewConverter authorToAuthorViewConverter;
+        private AuthorToAuthorViewNestedConverter authorToAuthorViewConverter;
 
         @Test
         void getBook_WhenBookExists() {

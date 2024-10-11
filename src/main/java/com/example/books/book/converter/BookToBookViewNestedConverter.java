@@ -1,19 +1,18 @@
 package com.example.books.book.converter;
 
 import com.example.books.book.domain.Book;
-import com.example.books.book.web.BooksView;
+import com.example.books.book.web.BookViewNested;
+import lombok.NoArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 @Component
-public class BookToBooksViewConverter implements Converter<Book, BooksView> {
-
-    public BookToBooksViewConverter()  {
-    }
+@NoArgsConstructor
+public class BookToBookViewNestedConverter implements Converter<Book, BookViewNested> {
 
     @Override
-    public BooksView convert(@NonNull Book book) {
-        BooksView view = new BooksView();
+    public BookViewNested convert(@NonNull Book book) {
+        BookViewNested view = new BookViewNested();
         view.setBookName(book.getBookName());
         return view;
     }
