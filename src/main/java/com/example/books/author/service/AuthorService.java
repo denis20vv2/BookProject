@@ -1,23 +1,28 @@
 package com.example.books.author.service;
 
 import com.example.books.author.rep.AuthorRep;
+import com.example.books.author.web.AuthorRequestDTO;
 import com.example.books.author.web.AuthorView;
 import com.example.books.author.converter.AuthorToAuthorViewConverter;
 import com.example.books.author.domain.Author;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 import com.example.books.book.service.BookService;
+import com.example.books.book.web.BookDTO;
+import com.example.books.book.web.BookView;
+import com.example.books.book.web.BookViewNested;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +31,7 @@ public class AuthorService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
 
-    private final AuthorToAuthorViewConverter authorToAuthorViewsConverter;
+    private final AuthorToAuthorViewConverter authorToAuthorViewConverter;
     private final BookRep bookRep;
     private final AuthorRep authorRep;
 
@@ -37,77 +42,81 @@ public class AuthorService {
 
     public AuthorView getViewAuthor(Long authorId) {
         Author author = getAuthor(authorId);
-        return authorToAuthorViewsConverter.convert(author);
+        return authorToAuthorViewConverter.convert(author);
     }
 
-    public AuthorView create(Author author) {
 
-        if (author == null)  {
-            throw new HttpMessageNotReadableException("Author don t have parameters");
+    public AuthorView getAuthorByName(String authorName) {
+        Author author = authorRep.findByAuthorName(authorName);
+        return authorToAuthorViewConverter.convert(author);
+    }
+
+    public AuthorView create(AuthorRequestDTO authorRequestDTO) {
+        if (authorRequestDTO == null) {
+            throw new HttpMessageNotReadableException("Author data is missing");
         }
-        else {
 
-            Set<Book> books = author.getBooks();
-
-            if (books != null && !books.isEmpty()) {
-                Set<Book> existingBooks = null;
-                for (Book existingBook : books) {
-
-                    if (existingBook.getBookId() != null) {
-                        Book findBook = bookRep.findById(existingBook.getBookId())
-                                .orElseThrow(() -> new EntityNotFoundException("Book with id not found"));
-
-                        findBook.setBookName(existingBook.getBookName());
-                        existingBooks.add(findBook);
-                    } else {
-                        throw new EntityNotFoundException("Book ID is required for update");
-                    }
-                }
-                author.setBooks(existingBooks);
+        Author author;
+        if (authorRequestDTO.getAuthorName() != null) {
+            Author existingAuthor = authorRep.findByAuthorName(authorRequestDTO.getAuthorName());
+            if (existingAuthor == null) {
+                throw new IllegalStateException("Author with name " + authorRequestDTO.getAuthorName() + " already exists");
+            } else {
+                author = new Author();
             }
+        } else {
+            author = new Author();
         }
 
-        return authorToAuthorViewsConverter.convert(authorRep.save(author));
+        //author.setAuthorId(authorRequestDTO.getAuthorId());
+        author.setAuthorName(authorRequestDTO.getAuthorName());
+
+        List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
+        if (bookRequestList != null && !bookRequestList.isEmpty()) {
+            Set<Book> books = new HashSet<>();
+
+            for (BookDTO bookDTO : bookRequestList) {
+                Book book = new Book();
+                book.setBookName(bookDTO.getBookName());
+                books.add(book);
+            }
+
+            author.setBooks(books);
+        }
+
+        Author savedAuthor = authorRep.save(author);
+
+        return authorToAuthorViewConverter.convert(savedAuthor);
     }
 
-    public AuthorView update(Long authorId, Author updatedAuthor) {
-
-        ///////////////////////////////////////////////////
+    public AuthorView update(Long authorId, AuthorRequestDTO authorRequestDTO) {
 
         Author author = getAuthor(authorId);
-        if(updatedAuthor.getAuthorName() != null){
-        author.setAuthorName(updatedAuthor.getAuthorName());
+
+        if (authorRequestDTO == null) {
+            throw new HttpMessageNotReadableException("Author data is missing");
         }
 
-        Set<Book> updatedBooks = updatedAuthor.getBooks();
-
-        /*if(updatedBooks != null){
-
-
+        if (authorRequestDTO.getAuthorName() != null) {
+            author.setAuthorName(authorRequestDTO.getAuthorName());
         }
 
+        List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
+        if (bookRequestList != null && !bookRequestList.isEmpty()) {
+            Set<Book> books = new HashSet<>();
 
-        if (!updatedBooks.isEmpty()) {
-            Set<Book> booksToSet = new HashSet<>();
-            for (Book updatedBook : updatedBooks) {
-                if (updatedBook.getBookId() != null) {
-                    Book existingBook = bookRep.findById(updatedBook.getBookId())
-                            .orElseThrow(() -> new EntityNotFoundException("Book with id " + updatedBook.getBookId() + " not found"));
-
-                    existingBook.setBookName(updatedBook.getBookName());
-                    booksToSet.add(existingBook);
-                } else {
-                    throw new IllegalArgumentException("Book ID is required for update");
-                }
+            for (BookDTO bookDTO : bookRequestList) {
+                Book book = new Book();
+                book.setBookName(bookDTO.getBookName());
+                books.add(book);
             }
-            author.setBooks(booksToSet);
-        }*/
 
-        ////////////////////////////////////////////////////
+            author.setBooks(books);
+        }
 
+        //Author savedAuthor = authorRep.save(author);
 
-        Author authorSave = authorRep.save(author);
-        return authorToAuthorViewsConverter.convert(authorSave);
+        return authorToAuthorViewConverter.convert(authorRep.save(author));
     }
 
     //    @Transactional
@@ -120,13 +129,19 @@ public class AuthorService {
         }
     }
 
+    public Page<AuthorView> getAuthorsWithPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("authorName").ascending());
+        return authorRep.findAll(pageable)
+                .map(authorToAuthorViewConverter::convert);
+    }
+
     public List<AuthorView> getFirstTenAuthors() {
 
         Sort sort = Sort.by(Sort.Direction.ASC, "authorName");
         List<Author> sortedAuthors = (List<Author>) authorRep.findAll(sort);
         sortedAuthors = sortedAuthors.stream().limit(4).collect(Collectors.toList());
         List<AuthorView> views = new ArrayList<>();
-        sortedAuthors.forEach(author -> views.add(authorToAuthorViewsConverter.convert(author)));
+        sortedAuthors.forEach(author -> views.add(authorToAuthorViewConverter.convert(author)));
 
         return new ArrayList<>(views);
 

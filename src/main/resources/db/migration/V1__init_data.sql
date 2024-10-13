@@ -19,10 +19,8 @@
  primary key (author_id));
 
  create table book (
- author_id bigint not null,
  book_id bigint not null DEFAULT nextval('book_seq'),
  book_name varchar(255) not null,
- FOREIGN KEY (author_id) REFERENCES author(author_id),
  primary key (book_id));
 
   create table author_book (

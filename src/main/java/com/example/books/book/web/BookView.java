@@ -13,5 +13,5 @@ import java.util.Set;
 public class BookView {
     private Long bookId;
     private String bookName;
-    private Set<Author> authors;
+    private Set<AuthorViewNested> authors;
 }

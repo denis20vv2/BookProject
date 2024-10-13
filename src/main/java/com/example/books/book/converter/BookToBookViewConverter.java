@@ -33,7 +33,7 @@ public class BookToBookViewConverter implements Converter<Book, BookView> {
 
         authors.forEach(author -> views.add(authorToAuthorViewNestedConverter.convert(author)));
         //view.setAuthors(authorToAuthorViewNestedConverter.convert(author));
-        view.setAuthors(authors);
+        view.setAuthors(views);
         return view;
 
     }

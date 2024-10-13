@@ -39,4 +39,5 @@ public class Book {
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Author> authors = new HashSet<>();
 
+
 }
