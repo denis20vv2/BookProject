@@ -12,4 +12,6 @@ public interface BookRep extends JpaRepository<Book, Long> {
 
     Book findByBookName(String authorName);
 
+    //Book findById(Long bookName);
+
 }

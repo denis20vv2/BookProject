@@ -11,6 +11,4 @@ public class Error {
 
     String message;
 
-
-
 }

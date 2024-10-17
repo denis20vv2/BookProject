@@ -95,13 +95,6 @@ public class AuthorController {
     }
 
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Error> handleNotFoundException(EntityNotFoundException exception) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new Error(exception.getMessage()));
-    }
-
     @GetMapping("/allAuthorsPagination")
     @ResponseBody
     @Operation(
@@ -112,18 +105,5 @@ public class AuthorController {
         return service.getAuthorsWithPagination(page, size);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Error> handleExceptionNotParametersException(HttpMessageNotReadableException exception) {
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(new Error(exception.getMessage()));
-    }
-
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Error> handleExceptionNotParametersException(IllegalStateException exception) {
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new Error(exception.getMessage()));
-    }
 
 }

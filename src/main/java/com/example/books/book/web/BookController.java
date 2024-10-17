@@ -4,6 +4,10 @@ import com.example.books.book.service.BookService;
 import com.example.books.book.domain.Book;
 import com.example.books.error.Error;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +18,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.example.books.error.ControllerAdvice;
 
 import java.util.List;
 
@@ -26,6 +31,11 @@ public class BookController {
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private final BookService service;
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful retrieval of the book"),
+            @ApiResponse(responseCode = "404", description = "Book not found", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/id/{bookId}")
     @ResponseBody
     @Operation(
@@ -95,20 +105,6 @@ public class BookController {
     public Page<BookView> getBooksWithPagination(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 
         return service.getBooksWithPagination(page, size);
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Error> handleNotFoundException(EntityNotFoundException exception) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new Error(exception.getMessage()));
-    }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Error> handleExceptionNotParametersException(HttpMessageNotReadableException exception) {
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(new Error(exception.getMessage()));
     }
 
 }

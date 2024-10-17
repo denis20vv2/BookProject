@@ -12,6 +12,7 @@ import com.example.books.book.web.BookRequestDTO;
 import com.example.books.book.web.BookView;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
+//import jakarta.persistence.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
+//import com.example.books.error.NotFoundException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,10 +51,10 @@ public class BookService {
         return bookToBookViewConverter.convert(book);
     }
 
-    public BookView getViewBookByName(String authorName) {
-        Book book = bookRep.findByBookName(authorName);
+    public BookView getViewBookByName(String bookName) {
+        Book book = bookRep.findByBookName(bookName);
         if (book == null) {
-            throw new EntityNotFoundException("Book with name '" + authorName + "' not found");
+            throw new EntityNotFoundException("Book with name '" + bookName + "' not found");
         }
         return bookToBookViewConverter.convert(book);
     }
@@ -60,54 +62,50 @@ public class BookService {
 
 
     public BookView create(BookRequestDTO bookRequestDTO) {
-        if (bookRequestDTO == null) {
-            throw new HttpMessageNotReadableException("Author data is missing");
+        if (bookRequestDTO.getBookName() == null || bookRequestDTO.getAuthors().isEmpty() || bookRequestDTO == null ) {
+            throw new HttpMessageNotReadableException("Book data is missing");
         }
 
-        Book book;
-        if (bookRequestDTO.getBookName() != null) {
-            Author existingAuthor = authorRep.findByAuthorName(bookRequestDTO.getBookName());
-            if (existingAuthor == null) {
-                throw new IllegalStateException("Author with name " + bookRequestDTO.getBookName() + " already exists");
-            } else {
-                book = new Book();
-            }
-        } else {
-            book = new Book();
-        }
-
-        //author.setAuthorId(bookRequestDTO.getAuthorId());
+        Book book = new Book();
+        //author.setAuthorId(authorRequestDTO.getAuthorId());
         book.setBookName(bookRequestDTO.getBookName());
 
         List<AuthorDTO> authorRequestList = bookRequestDTO.getAuthors();
-        if (authorRequestList != null && !authorRequestList.isEmpty()) {
-            Set<Author> authors = new HashSet<>();
+        Set<Author> authors = new HashSet<>();
 
-            for (AuthorDTO authorDTO : authorRequestList) {
-                Author author = new Author();
-                author.setAuthorName(authorDTO.getAuthorName());
+        for(int numberElementList = 0; numberElementList < authorRequestList.size(); numberElementList++ ) {
+
+            Long authorId = authorRequestList.get(numberElementList).getAuthorId();
+
+            if (authorId != null) {
+
+                logger.info("Получен запрос на привязку существующей книги книги");
+
+                Author author = authorRep.findById((authorRequestList.get(numberElementList)).getAuthorId())
+                        .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
+
                 authors.add(author);
+
             }
 
-            book.setAuthors(authors);
+            else {
+
+                logger.info("Получен запрос на создание новой книги");
+                Author author = new Author();
+                author.setAuthorName((authorRequestList.get(numberElementList)).getAuthorName());
+                authors.add(author);
+
+            }
+
         }
+
+        book.setAuthors(authors);
+
 
         Book savedBook = bookRep.save(book);
 
         return bookToBookViewConverter.convert(savedBook);
     }
-
-    /*private Book prepare(Book book, BookBaseReq req) {
-        book.setBookName(req.getBookName());
-        book.setAuthor(req.getAuthor());
-        /*List<Player> playerList = playerRepo.findAllById(req.getPlayers()
-                .stream()
-                .map(BaseRequest.Id::getId)
-                .collect(Collectors.toSet()));
-        //Set<Player> players = new HashSet<>(playerList);
-        //event.setPlayers(players);
-        return book;
-    }*/
 
     public BookView update(Long bookId, BookRequestDTO bookRequestDTO) {
 

@@ -52,37 +52,45 @@ public class AuthorService {
     }
 
     public AuthorView create(AuthorRequestDTO authorRequestDTO) {
-        if (authorRequestDTO == null) {
+        if (authorRequestDTO.getAuthorName() == null || authorRequestDTO.getBooks().isEmpty() || authorRequestDTO == null ) {
             throw new HttpMessageNotReadableException("Author data is missing");
         }
 
-        Author author;
-        if (authorRequestDTO.getAuthorName() != null) {
-            Author existingAuthor = authorRep.findByAuthorName(authorRequestDTO.getAuthorName());
-            if (existingAuthor == null) {
-                throw new IllegalStateException("Author with name " + authorRequestDTO.getAuthorName() + " already exists");
-            } else {
-                author = new Author();
-            }
-        } else {
-            author = new Author();
-        }
-
+        Author author = new Author();
         //author.setAuthorId(authorRequestDTO.getAuthorId());
         author.setAuthorName(authorRequestDTO.getAuthorName());
 
         List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
-        if (bookRequestList != null && !bookRequestList.isEmpty()) {
-            Set<Book> books = new HashSet<>();
+        Set<Book> books = new HashSet<>();
 
-            for (BookDTO bookDTO : bookRequestList) {
-                Book book = new Book();
-                book.setBookName(bookDTO.getBookName());
-                books.add(book);
+            for(int numberElementList = 0; numberElementList < bookRequestList.size(); numberElementList++ ) {
+
+                Long bookId = bookRequestList.get(numberElementList).getBookId();
+
+                if (bookId != null) {
+
+                    logger.info("Получен запрос на привязку существующей книги книги");
+
+                    Book book = bookRep.findById((bookRequestList.get(numberElementList)).getBookId())
+                            .orElseThrow(() -> new EntityNotFoundException("Book with ID  not found."));
+
+                    books.add(book);
+
+                }
+
+                else {
+
+                    logger.info("Получен запрос на создание новой книги");
+                    Book book = new Book();
+                    book.setBookName((bookRequestList.get(numberElementList)).getBookName());
+                    books.add(book);
+
+                }
+
             }
 
             author.setBooks(books);
-        }
+
 
         Author savedAuthor = authorRep.save(author);
 

@@ -8,6 +8,9 @@ import lombok.Setter;
 @Setter
 public class BookDTO {
 
+        @Schema(description = "id книги", example = "1")
+        private Long bookId;
+
         @Schema(description = "Название книги", example = "book")
         private String bookName;
 
