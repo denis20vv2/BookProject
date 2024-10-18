@@ -68,14 +68,24 @@ public class BookController {
         return service.create(bookRequestDTO);
     }
 
-    @PutMapping("/{bookId}")
+    @PutMapping("updateAuthor/{bookId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     @Operation(
-            summary = "Обновление книги"
+            summary = "Обновление названия книги"
     )
-    public BookView updateBook(@PathVariable Long bookId, @RequestBody BookRequestDTO bookRequestDTO) {
-        return service.update(bookId, bookRequestDTO);
+    public BookView updateNameBook(@PathVariable Long bookId, @RequestBody BookNameUpdateRequest bookRequestDTO) {
+        return service.updateNameBook(bookId, bookRequestDTO);
+    }
+
+    @PutMapping("updateBookName/{bookId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    @Operation(
+            summary = "Обновление авторов книги"
+    )
+    public BookView updateNameAuthorNested(@PathVariable Long bookId, @RequestBody AuthorNestedUpdateRequest bookRequestDTO) {
+        return service.updateAuthorNested(bookId, bookRequestDTO);
     }
 
 

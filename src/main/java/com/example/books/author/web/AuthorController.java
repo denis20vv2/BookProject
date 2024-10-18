@@ -65,16 +65,25 @@ public class AuthorController {
         return service.create(authorRequestDTO);
     }
 
-    @PutMapping("/{authorId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("updateAuthorName/{authorId}")
+    @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @Operation(
-            summary = "Обновление автора"
+            summary = "Обновление Имени"
     )
-    public AuthorView updateAuthor(@PathVariable Long authorId, @RequestBody AuthorRequestDTO authorRequestDTO) {
-        return service.update(authorId, authorRequestDTO);
+    public AuthorView updateAuthorName(@PathVariable Long authorId, @RequestBody AuthorNameUpdateRequest authorRequestDTO) {
+        return service.updateAuthorName(authorId, authorRequestDTO);
     }
 
+    @PutMapping("updateBookNested/{authorId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    @Operation(
+            summary = "Обновление вложенных книг"
+    )
+    public AuthorView updateAuthorBookNested(@PathVariable Long authorId, @RequestBody BookNestedUpdateRequest authorRequestDTO) {
+        return service.updateBookNested(authorId, authorRequestDTO);
+    }
 
     @DeleteMapping("/{authorId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

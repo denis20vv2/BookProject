@@ -1,10 +1,12 @@
 package com.example.books.author.service;
 
 import com.example.books.author.rep.AuthorRep;
+import com.example.books.author.web.AuthorNameUpdateRequest;
 import com.example.books.author.web.AuthorRequestDTO;
 import com.example.books.author.web.AuthorView;
 import com.example.books.author.converter.AuthorToAuthorViewConverter;
 import com.example.books.author.domain.Author;
+import com.example.books.author.web.BookNestedUpdateRequest;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 import com.example.books.book.service.BookService;
@@ -97,37 +99,65 @@ public class AuthorService {
         return authorToAuthorViewConverter.convert(savedAuthor);
     }
 
-    public AuthorView update(Long authorId, AuthorRequestDTO authorRequestDTO) {
+    public AuthorView updateAuthorName(Long authorId, AuthorNameUpdateRequest authorRequestDTO) {
 
-        Author author = getAuthor(authorId);
 
-        if (authorRequestDTO == null) {
+        if (authorRequestDTO == null || authorRequestDTO.getAuthorName() == null) {
             throw new HttpMessageNotReadableException("Author data is missing");
         }
 
-        if (authorRequestDTO.getAuthorName() != null) {
-            author.setAuthorName(authorRequestDTO.getAuthorName());
-        }
+        Author author = getAuthor(authorId);
 
-        List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
-        if (bookRequestList != null && !bookRequestList.isEmpty()) {
-            Set<Book> books = new HashSet<>();
-
-            for (BookDTO bookDTO : bookRequestList) {
-                Book book = new Book();
-                book.setBookName(bookDTO.getBookName());
-                books.add(book);
-            }
-
-            author.setBooks(books);
-        }
-
-        //Author savedAuthor = authorRep.save(author);
+        author.setAuthorName(authorRequestDTO.getAuthorName());
 
         return authorToAuthorViewConverter.convert(authorRep.save(author));
     }
 
-    //    @Transactional
+    public AuthorView updateBookNested(Long authorId, BookNestedUpdateRequest authorRequestDTO) {
+
+        if (authorRequestDTO == null || authorRequestDTO.getBooks().isEmpty()) {
+            throw new HttpMessageNotReadableException("Author data is missing");
+        }
+
+        Author author = getAuthor(authorId);
+
+        List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
+        Set<Book> books = new HashSet<>();
+
+        for(int numberElementList = 0; numberElementList < bookRequestList.size(); numberElementList++ ) {
+
+            logger.info("fatal1");
+            Long bookId = bookRequestList.get(numberElementList).getBookId();
+            logger.info("fatal2");
+
+
+            if (bookId != null) {
+
+                logger.info("Получен запрос на привязку существующей книги книги");
+
+                Book book = bookRep.findById((bookRequestList.get(numberElementList)).getBookId())
+                        .orElseThrow(() -> new EntityNotFoundException("Book with ID  not found."));
+
+                books.add(book);
+
+            }
+
+            else {
+
+                logger.info("Получен запрос на создание новой книги");
+                Book book = new Book();
+                book.setBookName((bookRequestList.get(numberElementList)).getBookName());
+                books.add(book);
+
+            }
+        }
+
+        author.setBooks(books);
+
+        Author savedAuthor = authorRep.save(author);
+
+        return authorToAuthorViewConverter.convert(savedAuthor);
+    }
 
     public void deleteAuthor(Long authorId) {
         if (authorRep.findById(authorId).isPresent())  {
@@ -152,10 +182,5 @@ public class AuthorService {
         sortedAuthors.forEach(author -> views.add(authorToAuthorViewConverter.convert(author)));
 
         return new ArrayList<>(views);
-
-
-
-       // return new ArrayList<>(views);
     }
-
 }

@@ -20,7 +20,7 @@ import java.util.Set;
 public class Author {
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "author_book",
             joinColumns = @JoinColumn(name = "author_id"),

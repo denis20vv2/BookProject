@@ -7,9 +7,7 @@ import com.example.books.author.web.AuthorDTO;
 import com.example.books.author.web.AuthorView;
 import com.example.books.book.converter.BookToBookViewConverter;
 //import com.example.books.book.converter.BookViewToBookConverter;
-import com.example.books.book.web.BookDTO;
-import com.example.books.book.web.BookRequestDTO;
-import com.example.books.book.web.BookView;
+import com.example.books.book.web.*;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 //import jakarta.persistence.NotFoundException;
@@ -107,34 +105,64 @@ public class BookService {
         return bookToBookViewConverter.convert(savedBook);
     }
 
-    public BookView update(Long bookId, BookRequestDTO bookRequestDTO) {
+    public BookView updateNameBook(Long bookId, BookNameUpdateRequest bookRequestDTO) {
 
-        Book book = getBook(bookId);
 
         if (bookRequestDTO == null) {
             throw new HttpMessageNotReadableException("Book data is missing");
         }
 
-        if (bookRequestDTO.getBookName() != null) {
-            book.setBookName(bookRequestDTO.getBookName());
-        }
-        if (bookRequestDTO.getAuthors() != null && !bookRequestDTO.getAuthors().isEmpty()) {
-            Set<Author> newAuthors = new HashSet<>();
-            List<AuthorDTO> authors = bookRequestDTO.getAuthors();
+        Book book = getBook(bookId);
 
-                for (AuthorDTO authorDTO : authors) {
-                    Author author = new Author();
-                    author.setAuthorName(authorDTO.getAuthorName());
-                    newAuthors.add(author);
-                }
-
-                book.setAuthors(newAuthors);
-
-
-        }
+        book.setBookName(bookRequestDTO.getBookName());
 
         //Book savedBook = bookRep.save(book);
         return bookToBookViewConverter.convert(bookRep.save(book));
+    }
+
+    public BookView updateAuthorNested(Long bookId, AuthorNestedUpdateRequest bookRequestDTO) {
+
+        if (bookRequestDTO == null ) {
+            throw new HttpMessageNotReadableException("Book data is missing");
+        }
+
+        Book book = getBook(bookId);
+
+        List<AuthorDTO> authorRequestList = bookRequestDTO.getAuthors();
+        Set<Author> authors = new HashSet<>();
+
+        for(int numberElementList = 0; numberElementList < authorRequestList.size(); numberElementList++ ) {
+
+            Long authorId = authorRequestList.get(numberElementList).getAuthorId();
+
+            if (authorId != null) {
+
+                logger.info("Получен запрос на привязку существующего автора");
+
+                Author author = authorRep.findById((authorRequestList.get(numberElementList)).getAuthorId())
+                        .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
+
+                authors.add(author);
+
+            }
+
+            else {
+
+                logger.info("Получен запрос на создание нового автора и првязку");
+                Author author = new Author();
+                author.setAuthorName((authorRequestList.get(numberElementList)).getAuthorName());
+                authors.add(author);
+
+            }
+
+        }
+
+        book.setAuthors(authors);
+
+
+        Book savedBook = bookRep.save(book);
+
+        return bookToBookViewConverter.convert(savedBook);
     }
 
     //    @Transactional

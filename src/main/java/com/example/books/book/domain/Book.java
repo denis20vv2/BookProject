@@ -36,7 +36,13 @@ public class Book {
     @Column(nullable = false)
     private String bookName;
 
-    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "author_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    @Column(nullable = false)
     private Set<Author> authors = new HashSet<>();
 
 
