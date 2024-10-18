@@ -79,7 +79,7 @@ public class BookService {
 
             if (authorId != null) {
 
-                logger.info("Получен запрос на привязку существующей книги книги");
+                logger.info("Получен запрос на привязку существующего автора");
 
                 Author author = authorRep.findById((authorRequestList.get(numberElementList)).getAuthorId())
                         .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
@@ -90,7 +90,7 @@ public class BookService {
 
             else {
 
-                logger.info("Получен запрос на создание новой книги");
+                logger.info("Получен запрос на создание нового автора и првязку");
                 Author author = new Author();
                 author.setAuthorName((authorRequestList.get(numberElementList)).getAuthorName());
                 authors.add(author);

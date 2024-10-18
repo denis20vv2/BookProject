@@ -18,29 +18,29 @@ import java.time.Instant;
 public class ControllerAdvice {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<NotFoundExeptionResponse> handleNotFoundException(EntityNotFoundException exception) {
+    public ResponseEntity<NotFoundExeptionResponse> handleNotFoundException(EntityNotFoundException exception, WebRequest request) {
 
 
         NotFoundExeptionResponse notFoundExeptionResponse = new NotFoundExeptionResponse(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
                 "Entity Not Found",
-                exception.getMessage()
-                //request.getDescription(false)
+                exception.getMessage(),
+                request.getDescription(false)
         );
 
         return new ResponseEntity<>(notFoundExeptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<NotFoundExeptionResponse> handleExceptionNotParametersException(HttpMessageNotReadableException exception) {
+    public ResponseEntity<NotFoundExeptionResponse> handleExceptionNotParametersException(HttpMessageNotReadableException exception, WebRequest request) {
 
          NotFoundExeptionResponse notFoundExeptionResponse = new NotFoundExeptionResponse(
                  LocalDateTime.now(),
                  HttpStatus.BAD_REQUEST.value(),
                  "BAD REQUEST",
-                 exception.getMessage()
-                 //request.getDescription(false)
+                 exception.getMessage(),
+                 request.getDescription(false)
          );
 
          return new ResponseEntity<>(notFoundExeptionResponse, HttpStatus.BAD_REQUEST);
