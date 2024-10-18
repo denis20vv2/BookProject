@@ -11,5 +11,6 @@ public interface AuthorRep extends JpaRepository<Author, Long> {
     Author findByAuthorId(Long authorId);
     //Author findByAuthorName(String authorName);
 
+
     Author findByAuthorName(String authorName);
 }

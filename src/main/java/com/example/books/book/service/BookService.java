@@ -4,6 +4,7 @@ import com.example.books.author.domain.Author;
 import com.example.books.author.rep.AuthorRep;
 import com.example.books.author.web.AuthorDTO;
 //import com.example.books.author.web.bookRequestDTO;
+import com.example.books.author.web.AuthorRequestDTO;
 import com.example.books.author.web.AuthorView;
 import com.example.books.book.converter.BookToBookViewConverter;
 //import com.example.books.book.converter.BookViewToBookConverter;
@@ -57,9 +58,22 @@ public class BookService {
         return bookToBookViewConverter.convert(book);
     }
 
+    public BookView create(BookViewNested bookRequestDTO) {
+        if (bookRequestDTO.getBookName() == null) {
+            throw new HttpMessageNotReadableException("Book data is missing");
+        }
+
+        Book book = new Book();
+        //author.setAuthorId(authorRequestDTO.getAuthorId());
+        book.setBookName(bookRequestDTO.getBookName());
+
+        Book savedBook = bookRep.save(book);
+
+        return bookToBookViewConverter.convert(savedBook);
+    }
 
 
-    public BookView create(BookRequestDTO bookRequestDTO) {
+    /*public BookView create(BookRequestDTO bookRequestDTO) {
         if (bookRequestDTO.getBookName() == null || bookRequestDTO.getAuthors().isEmpty() || bookRequestDTO == null ) {
             throw new HttpMessageNotReadableException("Book data is missing");
         }
@@ -103,7 +117,7 @@ public class BookService {
         Book savedBook = bookRep.save(book);
 
         return bookToBookViewConverter.convert(savedBook);
-    }
+    }*/
 
     public BookView updateNameBook(Long bookId, BookNameUpdateRequest bookRequestDTO) {
 
@@ -120,12 +134,12 @@ public class BookService {
         return bookToBookViewConverter.convert(bookRep.save(book));
     }
 
-    public BookView updateAuthorNested(Long bookId, AuthorNestedUpdateRequest bookRequestDTO) {
+    public BookView updateAuthorNested(BookRequestDTO bookRequestDTO) {
 
         if (bookRequestDTO == null ) {
             throw new HttpMessageNotReadableException("Book data is missing");
         }
-
+        Long bookId = bookRequestDTO.getBookId();
         Book book = getBook(bookId);
 
         List<AuthorDTO> authorRequestList = bookRequestDTO.getAuthors();
@@ -158,7 +172,6 @@ public class BookService {
         }
 
         book.setAuthors(authors);
-
 
         Book savedBook = bookRep.save(book);
 

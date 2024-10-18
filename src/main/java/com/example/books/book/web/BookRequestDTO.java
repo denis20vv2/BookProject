@@ -7,9 +7,14 @@ import lombok.Setter;
 
 import java.util.List;
 
+@Schema(description = "Данные о книге")
 @Getter
 @Setter
 public class BookRequestDTO {
+
+    @Schema(description = "id автора", example = "1")
+    private Long BookId;
+
     @Schema(description = "Название книги", example = "book")
    String bookName;
 

@@ -61,8 +61,8 @@ public class AuthorController {
             summary = "Создание нового автора",
             description = "Позволяет создать нового автора в БД"
     )
-    public AuthorView create(@RequestBody AuthorRequestDTO authorRequestDTO) {
-        return service.create(authorRequestDTO);
+    public AuthorView create(@RequestBody AuthorViewNested authorRequestDTO) {
+        return service.createAuthor(authorRequestDTO);
     }
 
     @PutMapping("updateAuthorName/{authorId}")
@@ -75,14 +75,14 @@ public class AuthorController {
         return service.updateAuthorName(authorId, authorRequestDTO);
     }
 
-    @PutMapping("updateBookNested/{authorId}")
+    @PostMapping("updateBookNested/{authorId}")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @Operation(
             summary = "Обновление вложенных книг"
     )
-    public AuthorView updateAuthorBookNested(@PathVariable Long authorId, @RequestBody BookNestedUpdateRequest authorRequestDTO) {
-        return service.updateBookNested(authorId, authorRequestDTO);
+    public AuthorView updateAuthorBookNested(@RequestBody AuthorRequestDTO authorRequestDTO) {
+        return service.updateBookNested(authorRequestDTO);
     }
 
     @DeleteMapping("/{authorId}")

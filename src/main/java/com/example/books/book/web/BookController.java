@@ -64,7 +64,7 @@ public class BookController {
     @Operation(
             summary = "Создание книги"
     )
-    public BookView create(@RequestBody BookRequestDTO bookRequestDTO) {
+    public BookView create(@RequestBody BookViewNested bookRequestDTO) {
         return service.create(bookRequestDTO);
     }
 
@@ -78,19 +78,19 @@ public class BookController {
         return service.updateNameBook(bookId, bookRequestDTO);
     }
 
-    @PutMapping("updateBookName/{bookId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping("updateBookName/{bookId}")
+    @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @Operation(
             summary = "Обновление авторов книги"
     )
-    public BookView updateNameAuthorNested(@PathVariable Long bookId, @RequestBody AuthorNestedUpdateRequest bookRequestDTO) {
-        return service.updateAuthorNested(bookId, bookRequestDTO);
+    public BookView updateNameAuthorNested( @RequestBody BookRequestDTO bookRequestDTO) {
+        return service.updateAuthorNested(bookRequestDTO);
     }
 
 
     @DeleteMapping("/{bookId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Удаление книги"
     )

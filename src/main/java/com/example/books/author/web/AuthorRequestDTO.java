@@ -12,6 +12,9 @@ import java.util.List;
 @Setter
 public class AuthorRequestDTO {
 
+    @Schema(description = "id автора", example = "1")
+    private Long authorId;
+
     @Schema(description = "Имя автора", example = "Лев Толстой")
     private String authorName;
 

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class AuthorDTO {
 
-    @Schema(description = "id книги", example = "1")
+    @Schema(description = "id автора", example = "1")
     private Long authorId;
 
     @Schema(description = "Имя автора", example = "author")
