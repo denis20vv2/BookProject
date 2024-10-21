@@ -2,10 +2,8 @@ package com.example.books.book.service;
 import com.example.books.author.converter.AuthorToAuthorViewNestedConverter;
 import com.example.books.author.domain.Author;
 import com.example.books.author.rep.AuthorRep;
-import com.example.books.author.web.AuthorDTO;
+import com.example.books.author.web.*;
 //import com.example.books.author.web.bookRequestDTO;
-import com.example.books.author.web.AuthorRequestDTO;
-import com.example.books.author.web.AuthorView;
 import com.example.books.book.converter.BookToBookViewConverter;
 //import com.example.books.book.converter.BookViewToBookConverter;
 import com.example.books.book.web.*;
@@ -59,9 +57,6 @@ public class BookService {
     }
 
     public BookView create(BookViewNested bookRequestDTO) {
-        if (bookRequestDTO.getBookName() == null) {
-            throw new HttpMessageNotReadableException("Book data is missing");
-        }
 
         Book book = new Book();
         //author.setAuthorId(authorRequestDTO.getAuthorId());
@@ -119,12 +114,7 @@ public class BookService {
         return bookToBookViewConverter.convert(savedBook);
     }*/
 
-    public BookView updateNameBook(Long bookId, BookNameUpdateRequest bookRequestDTO) {
-
-
-        if (bookRequestDTO == null) {
-            throw new HttpMessageNotReadableException("Book data is missing");
-        }
+    public BookView updateBookName(Long bookId, BookNameUpdateRequest bookRequestDTO) {
 
         Book book = getBook(bookId);
 
@@ -133,41 +123,74 @@ public class BookService {
         //Book savedBook = bookRep.save(book);
         return bookToBookViewConverter.convert(bookRep.save(book));
     }
+    public BookView assignExistingAuthor(BookRequestDTO bookRequestDTO){
 
-    public BookView updateAuthorNested(BookRequestDTO bookRequestDTO) {
-
-        if (bookRequestDTO == null ) {
-            throw new HttpMessageNotReadableException("Book data is missing");
-        }
         Long bookId = bookRequestDTO.getBookId();
         Book book = getBook(bookId);
 
         List<AuthorDTO> authorRequestList = bookRequestDTO.getAuthors();
         Set<Author> authors = new HashSet<>();
+        if(authorRequestList.isEmpty()) {
+            throw new HttpMessageNotReadableException("Authors = 0");
+        }
 
-        for(int numberElementList = 0; numberElementList < authorRequestList.size(); numberElementList++ ) {
+        for (AuthorDTO authorDTO : authorRequestList) {
 
-            Long authorId = authorRequestList.get(numberElementList).getAuthorId();
-
-            if (authorId != null) {
-
-                logger.info("Получен запрос на привязку существующего автора");
-
-                Author author = authorRep.findById((authorRequestList.get(numberElementList)).getAuthorId())
-                        .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
-
-                authors.add(author);
-
+            //Long authorId = authorRequestList.get(numberElementList).getAuthorId();
+            if(authorDTO.getAuthorId() == null) {
+                throw new HttpMessageNotReadableException("AuthorId = 0");
             }
 
-            else {
+            logger.info("Получен запрос на привязку существующего автора");
+
+            Author author = authorRep.findById(authorDTO.getAuthorId())
+                    .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
+
+            authors.add(author);
+
+
+
+           /* else {
 
                 logger.info("Получен запрос на создание нового автора и првязку");
                 Author author = new Author();
-                author.setAuthorName((authorRequestList.get(numberElementList)).getAuthorName());
+                //author.setAuthorName((authorRequestList.get(numberElementList)).getAuthorName());
                 authors.add(author);
 
+            }*/
+
+        }
+
+        book.setAuthors(authors);
+
+        Book savedBook = bookRep.save(book);
+
+        return bookToBookViewConverter.convert(savedBook);
+    }
+
+    public BookView assignNewAuthor(BookRequestDTOUpdate bookRequestDTO) {
+
+        Long bookId = bookRequestDTO.getBookId();
+        Book book = getBook(bookId);
+
+        List<AuthorViewNested> authorRequestList = bookRequestDTO.getAuthors();
+        Set<Author> authors = new HashSet<>();
+        if(authorRequestList.isEmpty()) {
+            throw new HttpMessageNotReadableException("Authors == 0");
+        }
+
+        for (AuthorViewNested authorDTO : authorRequestList) {
+
+            //Long authorId = authorRequestList.get(numberElementList).getAuthorId();
+            if(authorDTO.getAuthorName() == null) {
+                throw new HttpMessageNotReadableException("AuthorId == 0");
             }
+
+                logger.info("Получен запрос на создание нового автора и првязку");
+                Author author = new Author();
+                author.setAuthorName(authorDTO.getAuthorName());
+                authorRep.save(author);
+                authors.add(author);
 
         }
 
@@ -199,7 +222,7 @@ public class BookService {
 
         Sort sort = Sort.by(Sort.Direction.ASC, "bookName");
         List<Book> sortedBooks = (List<Book>) bookRep.findAll(sort);
-        sortedBooks = sortedBooks.stream().limit(4).collect(Collectors.toList());
+        sortedBooks = sortedBooks.stream().limit(4).toList();
         List<BookView> views = new ArrayList<>();
         sortedBooks.forEach(book -> views.add(bookToBookViewConverter.convert(book)));
 

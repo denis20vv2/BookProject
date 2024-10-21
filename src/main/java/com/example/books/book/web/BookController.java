@@ -10,11 +10,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,7 @@ import java.util.List;
 @RequestMapping("/book")
 @Tag(name="Book")
 @RequiredArgsConstructor
+@Validated
 public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
@@ -64,28 +67,38 @@ public class BookController {
     @Operation(
             summary = "Создание книги"
     )
-    public BookView create(@RequestBody BookViewNested bookRequestDTO) {
+    public BookView create(@Valid @RequestBody BookViewNested bookRequestDTO) {
         return service.create(bookRequestDTO);
     }
 
-    @PutMapping("updateAuthor/{bookId}")
+    @PutMapping("updateBookName/{bookId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     @Operation(
             summary = "Обновление названия книги"
     )
-    public BookView updateNameBook(@PathVariable Long bookId, @RequestBody BookNameUpdateRequest bookRequestDTO) {
-        return service.updateNameBook(bookId, bookRequestDTO);
+    public BookView updateBookName(@PathVariable Long bookId, @Valid @RequestBody BookNameUpdateRequest bookRequestDTO) {
+        return service.updateBookName(bookId, bookRequestDTO);
     }
 
-    @PostMapping("updateBookName/{bookId}")
+    @PostMapping("assignExistingAuthor")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @Operation(
-            summary = "Обновление авторов книги"
+            summary = "Связка книги с существующими авторами"
     )
-    public BookView updateNameAuthorNested( @RequestBody BookRequestDTO bookRequestDTO) {
-        return service.updateAuthorNested(bookRequestDTO);
+    public BookView assignExistingAuthor(@Valid @RequestBody BookRequestDTO bookRequestDTO) {
+        return service.assignExistingAuthor(bookRequestDTO);
+    }
+
+    @PostMapping("assignNewAuthor")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    @Operation(
+            summary = "Связка книги с новыми авторами"
+    )
+    public BookView assignNewAuthor(@Valid @RequestBody BookRequestDTOUpdate bookRequestDTO) {
+        return service.assignNewAuthor(bookRequestDTO);
     }
 
 

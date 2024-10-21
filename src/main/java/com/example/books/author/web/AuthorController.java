@@ -10,6 +10,7 @@ import com.example.books.book.rep.BookRep;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 @RequestMapping("/author")
 @Tag(name="Author")
 @RequiredArgsConstructor
+@Validated
 public class AuthorController {
     BookRep bookRep;
 
@@ -61,7 +64,7 @@ public class AuthorController {
             summary = "Создание нового автора",
             description = "Позволяет создать нового автора в БД"
     )
-    public AuthorView create(@RequestBody AuthorViewNested authorRequestDTO) {
+    public AuthorView create(@Valid @RequestBody AuthorViewNested authorRequestDTO) {
         return service.createAuthor(authorRequestDTO);
     }
 
@@ -71,18 +74,28 @@ public class AuthorController {
     @Operation(
             summary = "Обновление Имени"
     )
-    public AuthorView updateAuthorName(@PathVariable Long authorId, @RequestBody AuthorNameUpdateRequest authorRequestDTO) {
+    public AuthorView updateAuthorName(@PathVariable Long authorId, @Valid @RequestBody AuthorNameUpdateRequest authorRequestDTO) {
         return service.updateAuthorName(authorId, authorRequestDTO);
     }
 
-    @PostMapping("updateBookNested/{authorId}")
+    @PostMapping("assignExistingBook")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @Operation(
-            summary = "Обновление вложенных книг"
+            summary = "Привязка существующих книг"
     )
-    public AuthorView updateAuthorBookNested(@RequestBody AuthorRequestDTO authorRequestDTO) {
-        return service.updateBookNested(authorRequestDTO);
+    public AuthorView assignExistingBook(@Valid @RequestBody AuthorRequestDTO authorRequestDTO) {
+        return service.assignExistingBook(authorRequestDTO);
+    }
+
+    @PostMapping("assignNewBook")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    @Operation(
+            summary = "Привязка и создание новых книг"
+    )
+    public AuthorView assignNewBook(@Valid @RequestBody AuthorRequestDtoUpdate authorRequestDTO) {
+        return service.assignNewBook(authorRequestDTO);
     }
 
     @DeleteMapping("/{authorId}")
