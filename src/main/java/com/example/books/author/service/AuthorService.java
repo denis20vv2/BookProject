@@ -19,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -53,9 +52,7 @@ public class AuthorService {
     public AuthorView createAuthor(AuthorViewNested authorRequestDTO) {
 
         Author author = new Author();
-        //author.setAuthorId(authorRequestDTO.getAuthorId());
         author.setAuthorName(authorRequestDTO.getAuthorName());
-
         Author savedAuthor = authorRep.save(author);
 
         return authorToAuthorViewConverter.convert(savedAuthor);
@@ -73,19 +70,19 @@ public class AuthorService {
     public AuthorView assignExistingBook(AuthorRequestDTO authorRequestDTO) {
 
         Long authorId = authorRequestDTO.getAuthorId();
-        Author author = authorRep.findByAuthorId(authorId);
+        Author author = getAuthor(authorId);
 
         List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
         Set<Book> books = author.getBooks();
 
         if(bookRequestList.isEmpty()) {
-            throw new HttpMessageNotReadableException("Books = 0.");
+            throw new IllegalArgumentException("Books = 0.");
         }
 
         for (BookDTO bookDTO : bookRequestList) {
 
             if(bookDTO.getBookId() == null) {
-                throw new HttpMessageNotReadableException("BookId is null.");
+                throw new IllegalArgumentException("BookId is null.");
             }
 
 
@@ -116,13 +113,13 @@ public class AuthorService {
 
 
         if(bookRequestList.isEmpty()) {
-            throw new HttpMessageNotReadableException("Books = 0");
+            throw new IllegalArgumentException ("Books = 0");
         }
 
         for (BookViewNested bookViewNested : bookRequestList) {
 
             if(bookViewNested.getBookName() == null) {
-                throw new HttpMessageNotReadableException("BookName is null");
+                throw new IllegalArgumentException("BookName is null");
             }
 
             logger.info("Получен запрос на создание новой книги и првязку");

@@ -1,17 +1,13 @@
 package com.example.books.book.service;
-//import com.example.books.author.converter.AuthorToAuthorViewNestedConverter;
 import com.example.books.author.domain.Author;
 import com.example.books.author.rep.AuthorRep;
 import com.example.books.author.web.*;
-//import com.example.books.author.web.bookRequestDTO;
 import com.example.books.book.Request.BookRequestDTO;
 import com.example.books.book.Request.BookRequestDTOUpdate;
 import com.example.books.book.converter.BookToBookViewConverter;
-//import com.example.books.book.converter.BookViewToBookConverter;
 import com.example.books.book.web.*;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
-//import jakarta.persistence.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -20,9 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
-//import com.example.books.error.NotFoundException;
+
 
 import java.util.*;
 
@@ -33,9 +28,7 @@ public class BookService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
 
-    //private final AuthorToAuthorViewNestedConverter authorToAuthorViewNestedConverter;
     private final BookToBookViewConverter bookToBookViewConverter;
-    //private final BookViewToBookConverter bookViewToBookConverter;
     private final BookRep bookRep;
     private final AuthorRep authorRep;
 
@@ -60,7 +53,6 @@ public class BookService {
     public BookView create(BookViewNested bookRequestDTO) {
 
         Book book = new Book();
-        //author.setAuthorId(authorRequestDTO.getAuthorId());
         book.setBookName(bookRequestDTO.getBookName());
 
         Book savedBook = bookRep.save(book);
@@ -73,8 +65,6 @@ public class BookService {
         Book book = getBook(bookId);
 
         book.setBookName(bookRequestDTO.getBookName());
-
-        //Book savedBook = bookRep.save(book);
         return bookToBookViewConverter.convert(bookRep.save(book));
     }
     public BookView assignExistingAuthor(BookRequestDTO bookRequestDTO){
@@ -85,14 +75,13 @@ public class BookService {
         List<AuthorDTO> authorRequestList = bookRequestDTO.getAuthors();
         Set<Author> authors = book.getAuthors();
         if(authorRequestList.isEmpty()) {
-            throw new HttpMessageNotReadableException("Authors = 0");
+            throw new IllegalArgumentException("Authors = 0");
         }
 
         for (AuthorDTO authorDTO : authorRequestList) {
 
-            //Long authorId = authorRequestList.get(numberElementList).getAuthorId();
             if(authorDTO.getAuthorId() == null) {
-                throw new HttpMessageNotReadableException("AuthorId is null");
+                throw new IllegalArgumentException("AuthorId is null");
             }
 
             logger.info("Получен запрос на привязку существующего автора");
@@ -119,14 +108,13 @@ public class BookService {
         List<AuthorViewNested> authorRequestList = bookRequestDTO.getAuthors();
         Set<Author> authors = book.getAuthors();
         if(authorRequestList.isEmpty()) {
-            throw new HttpMessageNotReadableException("Authors = 0");
+            throw new IllegalArgumentException("Authors = 0");
         }
 
         for (AuthorViewNested authorDTO : authorRequestList) {
 
-            //Long authorId = authorRequestList.get(numberElementList).getAuthorId();
             if(authorDTO.getAuthorName() == null) {
-                throw new HttpMessageNotReadableException("AuthorName is null");
+                throw new IllegalArgumentException("AuthorName is null");
             }
 
                 logger.info("Получен запрос на создание нового автора и првязку");
@@ -143,8 +131,6 @@ public class BookService {
 
         return bookToBookViewConverter.convert(savedBook);
     }
-
-    //    @Transactional
 
     public void deleteBook(Long bookId) {
         if (bookRep.findById(bookId).isPresent())  {
