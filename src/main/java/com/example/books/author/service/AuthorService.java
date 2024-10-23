@@ -61,50 +61,6 @@ public class AuthorService {
         return authorToAuthorViewConverter.convert(savedAuthor);
     }
 
-    /*public AuthorView createAuthorDependency(AuthorRequestDTO authorRequestDTO) {
-        if (authorRequestDTO.getAuthorName() == null) {
-            throw new HttpMessageNotReadableException("Author data is missing");
-        }
-
-        Author author = new Author();
-        //author.setAuthorId(authorRequestDTO.getAuthorId());
-        author.setAuthorName(authorRequestDTO.getAuthorName());
-
-        List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
-        Set<Book> books = new HashSet<>();
-
-        for (BookDTO bookDTO : bookRequestList) {
-
-            Long bookId = bookDTO.getBookId();
-
-            if (bookId != null) {
-
-                logger.info("Получен запрос на привязку существующей книги книги");
-
-                Book book = bookRep.findById(bookDTO.getBookId())
-                        .orElseThrow(() -> new EntityNotFoundException("Book with ID  not found."));
-
-                books.add(book);
-
-            } else {
-
-                logger.info("Получен запрос на создание новой книги");
-                Book book = new Book();
-                book.setBookName(bookDTO.getBookName());
-                books.add(book);
-
-            }
-
-        }
-
-            author.setBooks(books);
-
-
-        Author savedAuthor = authorRep.save(author);
-
-        return authorToAuthorViewConverter.convert(savedAuthor);
-    }*/
-
     public AuthorView updateAuthorName(Long authorId, AuthorViewNested authorRequestDTO) {
 
         Author author = getAuthor(authorId);
@@ -120,20 +76,14 @@ public class AuthorService {
         Author author = authorRep.findByAuthorId(authorId);
 
         List<BookDTO> bookRequestList = authorRequestDTO.getBooks();
-        Set<Book> books = new HashSet<>();
+        Set<Book> books = author.getBooks();
 
         if(bookRequestList.isEmpty()) {
             throw new HttpMessageNotReadableException("Books = 0.");
         }
 
-
-
         for (BookDTO bookDTO : bookRequestList) {
 
-            //logger.info("fatal1");
-            //Long bookId = bookRequestList.get(numberElementList).getBookId();
-
-            //logger.info("fatal2");
             if(bookDTO.getBookId() == null) {
                 throw new HttpMessageNotReadableException("BookId is null.");
             }
@@ -158,11 +108,11 @@ public class AuthorService {
     public AuthorView assignNewBook(AuthorRequestDtoUpdate authorRequestDTO) {
 
         Long authorId = authorRequestDTO.getAuthorId();
-        Author author = authorRep.findByAuthorId(authorId);
+        Author author = getAuthor(authorId);
 
 
         List<BookViewNested> bookRequestList = authorRequestDTO.getBooks();
-        Set<Book> books = new HashSet<>();
+        Set<Book> books = author.getBooks();
 
 
         if(bookRequestList.isEmpty()) {

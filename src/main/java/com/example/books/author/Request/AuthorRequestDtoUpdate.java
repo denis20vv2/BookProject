@@ -1,6 +1,6 @@
 package com.example.books.author.Request;
 
-import com.example.books.book.web.BookDTO;
+
 import com.example.books.book.web.BookViewNested;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

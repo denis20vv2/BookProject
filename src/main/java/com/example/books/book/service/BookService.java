@@ -1,5 +1,5 @@
 package com.example.books.book.service;
-import com.example.books.author.converter.AuthorToAuthorViewNestedConverter;
+//import com.example.books.author.converter.AuthorToAuthorViewNestedConverter;
 import com.example.books.author.domain.Author;
 import com.example.books.author.rep.AuthorRep;
 import com.example.books.author.web.*;
@@ -33,7 +33,7 @@ public class BookService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
 
-    private final AuthorToAuthorViewNestedConverter authorToAuthorViewNestedConverter;
+    //private final AuthorToAuthorViewNestedConverter authorToAuthorViewNestedConverter;
     private final BookToBookViewConverter bookToBookViewConverter;
     //private final BookViewToBookConverter bookViewToBookConverter;
     private final BookRep bookRep;
@@ -68,53 +68,6 @@ public class BookService {
         return bookToBookViewConverter.convert(savedBook);
     }
 
-
-    /*public BookView create(BookRequestDTO bookRequestDTO) {
-        if (bookRequestDTO.getBookName() == null || bookRequestDTO.getAuthors().isEmpty() || bookRequestDTO == null ) {
-            throw new HttpMessageNotReadableException("Book data is missing");
-        }
-
-        Book book = new Book();
-        //author.setAuthorId(authorRequestDTO.getAuthorId());
-        book.setBookName(bookRequestDTO.getBookName());
-
-        List<AuthorDTO> authorRequestList = bookRequestDTO.getAuthors();
-        Set<Author> authors = new HashSet<>();
-
-        for(int numberElementList = 0; numberElementList < authorRequestList.size(); numberElementList++ ) {
-
-            Long authorId = authorRequestList.get(numberElementList).getAuthorId();
-
-            if (authorId != null) {
-
-                logger.info("Получен запрос на привязку существующего автора");
-
-                Author author = authorRep.findById((authorRequestList.get(numberElementList)).getAuthorId())
-                        .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
-
-                authors.add(author);
-
-            }
-
-            else {
-
-                logger.info("Получен запрос на создание нового автора и првязку");
-                Author author = new Author();
-                author.setAuthorName((authorRequestList.get(numberElementList)).getAuthorName());
-                authors.add(author);
-
-            }
-
-        }
-
-        book.setAuthors(authors);
-
-
-        Book savedBook = bookRep.save(book);
-
-        return bookToBookViewConverter.convert(savedBook);
-    }*/
-
     public BookView updateBookName(Long bookId, BookViewNested bookRequestDTO) {
 
         Book book = getBook(bookId);
@@ -130,7 +83,7 @@ public class BookService {
         Book book = getBook(bookId);
 
         List<AuthorDTO> authorRequestList = bookRequestDTO.getAuthors();
-        Set<Author> authors = new HashSet<>();
+        Set<Author> authors = book.getAuthors();
         if(authorRequestList.isEmpty()) {
             throw new HttpMessageNotReadableException("Authors = 0");
         }
@@ -164,7 +117,7 @@ public class BookService {
         Book book = getBook(bookId);
 
         List<AuthorViewNested> authorRequestList = bookRequestDTO.getAuthors();
-        Set<Author> authors = new HashSet<>();
+        Set<Author> authors = book.getAuthors();
         if(authorRequestList.isEmpty()) {
             throw new HttpMessageNotReadableException("Authors = 0");
         }
