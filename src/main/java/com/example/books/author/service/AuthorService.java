@@ -1,5 +1,7 @@
 package com.example.books.author.service;
 
+import com.example.books.author.Request.AuthorRequestDTO;
+import com.example.books.author.Request.AuthorRequestDtoUpdate;
 import com.example.books.author.rep.AuthorRep;
 import com.example.books.author.web.*;
 import com.example.books.author.converter.AuthorToAuthorViewConverter;
@@ -8,7 +10,6 @@ import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 import com.example.books.book.service.BookService;
 import com.example.books.book.web.BookDTO;
-import com.example.books.book.web.BookView;
 import com.example.books.book.web.BookViewNested;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -106,7 +105,7 @@ public class AuthorService {
         return authorToAuthorViewConverter.convert(savedAuthor);
     }*/
 
-    public AuthorView updateAuthorName(Long authorId, AuthorNameUpdateRequest authorRequestDTO) {
+    public AuthorView updateAuthorName(Long authorId, AuthorViewNested authorRequestDTO) {
 
         Author author = getAuthor(authorId);
 
@@ -136,7 +135,7 @@ public class AuthorService {
 
             //logger.info("fatal2");
             if(bookDTO.getBookId() == null) {
-                throw new HttpMessageNotReadableException("BookId = 0.");
+                throw new HttpMessageNotReadableException("BookId is null.");
             }
 
 
@@ -173,7 +172,7 @@ public class AuthorService {
         for (BookViewNested bookViewNested : bookRequestList) {
 
             if(bookViewNested.getBookName() == null) {
-                throw new HttpMessageNotReadableException("BookName = 0");
+                throw new HttpMessageNotReadableException("BookName is null");
             }
 
             logger.info("Получен запрос на создание новой книги и првязку");

@@ -1,23 +1,18 @@
 package com.example.books.author.web;
 
-import com.example.books.author.domain.Author;
-import com.example.books.author.rep.AuthorRep;
+import com.example.books.author.Request.AuthorRequestDTO;
+import com.example.books.author.Request.AuthorRequestDtoUpdate;
 import com.example.books.author.service.AuthorService;
 import com.example.books.book.web.BookController;
-import com.example.books.book.web.BookView;
-import com.example.books.error.Error;
 import com.example.books.book.rep.BookRep;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,7 +69,7 @@ public class AuthorController {
     @Operation(
             summary = "Обновление Имени"
     )
-    public AuthorView updateAuthorName(@PathVariable Long authorId, @Valid @RequestBody AuthorNameUpdateRequest authorRequestDTO) {
+    public AuthorView updateAuthorName(@PathVariable Long authorId, @Valid @RequestBody AuthorViewNested authorRequestDTO) {
         return service.updateAuthorName(authorId, authorRequestDTO);
     }
 

@@ -11,11 +11,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class BooksApplication {
 
-	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(BooksApplication.class, args);
-		logger.info("start");
+
 	}
 
 }

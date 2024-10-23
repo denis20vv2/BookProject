@@ -1,7 +1,8 @@
 package com.example.books.book.web;
 
+import com.example.books.book.Request.BookRequestDTO;
+import com.example.books.book.Request.BookRequestDTOUpdate;
 import com.example.books.book.service.BookService;
-import com.example.books.book.domain.Book;
 import com.example.books.error.Error;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,18 +10,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.example.books.error.ControllerAdvice;
 
 import java.util.List;
 
@@ -77,7 +74,7 @@ public class BookController {
     @Operation(
             summary = "Обновление названия книги"
     )
-    public BookView updateBookName(@PathVariable Long bookId, @Valid @RequestBody BookNameUpdateRequest bookRequestDTO) {
+    public BookView updateBookName(@PathVariable Long bookId, @Valid @RequestBody BookViewNested bookRequestDTO) {
         return service.updateBookName(bookId, bookRequestDTO);
     }
 

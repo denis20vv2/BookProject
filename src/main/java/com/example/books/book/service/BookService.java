@@ -4,6 +4,8 @@ import com.example.books.author.domain.Author;
 import com.example.books.author.rep.AuthorRep;
 import com.example.books.author.web.*;
 //import com.example.books.author.web.bookRequestDTO;
+import com.example.books.book.Request.BookRequestDTO;
+import com.example.books.book.Request.BookRequestDTOUpdate;
 import com.example.books.book.converter.BookToBookViewConverter;
 //import com.example.books.book.converter.BookViewToBookConverter;
 import com.example.books.book.web.*;
@@ -23,7 +25,6 @@ import org.springframework.stereotype.Service;
 //import com.example.books.error.NotFoundException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -114,7 +115,7 @@ public class BookService {
         return bookToBookViewConverter.convert(savedBook);
     }*/
 
-    public BookView updateBookName(Long bookId, BookNameUpdateRequest bookRequestDTO) {
+    public BookView updateBookName(Long bookId, BookViewNested bookRequestDTO) {
 
         Book book = getBook(bookId);
 
@@ -138,7 +139,7 @@ public class BookService {
 
             //Long authorId = authorRequestList.get(numberElementList).getAuthorId();
             if(authorDTO.getAuthorId() == null) {
-                throw new HttpMessageNotReadableException("AuthorId = 0");
+                throw new HttpMessageNotReadableException("AuthorId is null");
             }
 
             logger.info("Получен запрос на привязку существующего автора");
@@ -147,17 +148,6 @@ public class BookService {
                     .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
 
             authors.add(author);
-
-
-
-           /* else {
-
-                logger.info("Получен запрос на создание нового автора и првязку");
-                Author author = new Author();
-                //author.setAuthorName((authorRequestList.get(numberElementList)).getAuthorName());
-                authors.add(author);
-
-            }*/
 
         }
 
@@ -176,14 +166,14 @@ public class BookService {
         List<AuthorViewNested> authorRequestList = bookRequestDTO.getAuthors();
         Set<Author> authors = new HashSet<>();
         if(authorRequestList.isEmpty()) {
-            throw new HttpMessageNotReadableException("Authors == 0");
+            throw new HttpMessageNotReadableException("Authors = 0");
         }
 
         for (AuthorViewNested authorDTO : authorRequestList) {
 
             //Long authorId = authorRequestList.get(numberElementList).getAuthorId();
             if(authorDTO.getAuthorName() == null) {
-                throw new HttpMessageNotReadableException("AuthorId == 0");
+                throw new HttpMessageNotReadableException("AuthorName is null");
             }
 
                 logger.info("Получен запрос на создание нового автора и првязку");

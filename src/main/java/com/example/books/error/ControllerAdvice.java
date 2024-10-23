@@ -45,7 +45,7 @@ public class ControllerAdvice {
         );
 
 
-        // Добавляем ошибки полей в объект Error
+
         error.setFieldErrors(fieldErrors);
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

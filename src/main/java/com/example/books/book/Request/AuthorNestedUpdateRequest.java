@@ -1,4 +1,4 @@
-package com.example.books.book.web;
+package com.example.books.book.Request;
 
 import com.example.books.author.web.AuthorDTO;
 import io.swagger.v3.oas.annotations.media.Schema;

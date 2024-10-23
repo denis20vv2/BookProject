@@ -1,6 +1,7 @@
-package com.example.books.author.web;
+package com.example.books.author.Request;
 
 import com.example.books.book.web.BookDTO;
+import com.example.books.book.web.BookViewNested;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -11,7 +12,8 @@ import java.util.List;
 @Schema(description = "Данные об авторе")
 @Getter
 @Setter
-public class AuthorRequestDTO {
+public class AuthorRequestDtoUpdate {
+
 
     @Schema(description = "id автора", example = "1")
     @NotNull(message = "Author data is missing")
@@ -23,6 +25,5 @@ public class AuthorRequestDTO {
 
     @Schema(description = "Список книг автора")
     @NotNull(message = "Author data is missing")
-    private List<BookDTO> books;
-
+    private List<BookViewNested> books;
 }
