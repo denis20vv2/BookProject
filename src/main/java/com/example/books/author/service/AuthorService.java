@@ -2,10 +2,13 @@ package com.example.books.author.service;
 
 import com.example.books.author.Request.AuthorRequestDTO;
 import com.example.books.author.Request.AuthorRequestDtoUpdate;
+import com.example.books.author.Request.AuthorRequestUpdate;
+import com.example.books.author.Request.BookNestedUpdateRequest;
 import com.example.books.author.rep.AuthorRep;
 import com.example.books.author.web.*;
 import com.example.books.author.converter.AuthorToAuthorViewConverter;
 import com.example.books.author.domain.Author;
+import com.example.books.book.Request.BookRequestUpdate;
 import com.example.books.book.domain.Book;
 import com.example.books.book.rep.BookRep;
 import com.example.books.book.service.BookService;
@@ -65,6 +68,63 @@ public class AuthorService {
         author.setAuthorName(authorRequestDTO.getAuthorName());
 
         return authorToAuthorViewConverter.convert(authorRep.save(author));
+    }
+
+    public AuthorView updateListBook(Long authorId, BookNestedUpdateRequest authorRequestDTO) {
+
+        if(authorRequestDTO.getBooks().isEmpty()) {
+            throw new IllegalArgumentException("Books = 0.");
+        }
+
+        Author author = getAuthor(authorId);
+
+        List<BookRequestUpdate> bookRequestList = authorRequestDTO.getBooks();
+        Set<Book> books = new HashSet<>();
+
+        for (BookRequestUpdate bookRequestUpdate : bookRequestList) {
+
+            //logger.info("fatal1");
+            Long bookId = bookRequestUpdate.getBookId();
+
+            if(bookRequestUpdate.getBookId() == null && bookRequestUpdate.getBookName() == null) {
+                throw new IllegalArgumentException("all attributes of the book object is null");
+            }
+
+            //Нужно ли разделить на 2 метода? Сейчас обрабатываем в зависимости от того атрибута, который получаем
+            // если bookName заполнен, то берем его и создаем новую книгу
+            // если bookId заполнен ищем её в базе, если есть то свяязываем с существующей
+            if(bookRequestUpdate.getBookId() != null && bookRequestUpdate.getBookName() != null) {
+                throw new IllegalArgumentException("all attributes of the book object is null");
+            }
+
+
+            if (bookId != null) {
+
+                logger.info("Получен запрос на привязку существующей книги");
+
+                Book book = bookRep.findById(bookRequestUpdate.getBookId())
+                        .orElseThrow(() -> new EntityNotFoundException("Book with ID  not found."));
+
+                books.add(book);
+
+            } else {
+
+                //info("Получен запрос на создание новой книги");
+                Book book = new Book();
+                //info("fatal2");
+                book.setBookName(bookRequestUpdate.getBookName());
+                bookRep.save(book);
+                //logger.info("fatal2");
+                books.add(book);
+
+            }
+        }
+
+        author.setBooks(books);
+
+        Author savedAuthor = authorRep.save(author);
+
+        return authorToAuthorViewConverter.convert(savedAuthor);
     }
 
     public AuthorView assignExistingBook(AuthorRequestDTO authorRequestDTO) {

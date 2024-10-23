@@ -1,5 +1,6 @@
 package com.example.books.book.Request;
 
+import com.example.books.author.Request.AuthorRequestUpdate;
 import com.example.books.author.web.AuthorDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,6 @@ public class AuthorNestedUpdateRequest {
 
     @Schema(description = "Список аворов")
     @NotNull(message = "Author data is missing")
-    List<AuthorDTO> authors;
+    List<AuthorRequestUpdate> authors;
 
 }

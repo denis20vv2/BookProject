@@ -1,7 +1,9 @@
 package com.example.books.book.service;
+import com.example.books.author.Request.AuthorRequestUpdate;
 import com.example.books.author.domain.Author;
 import com.example.books.author.rep.AuthorRep;
 import com.example.books.author.web.*;
+import com.example.books.book.Request.AuthorNestedUpdateRequest;
 import com.example.books.book.Request.BookRequestDTO;
 import com.example.books.book.Request.BookRequestDTOUpdate;
 import com.example.books.book.converter.BookToBookViewConverter;
@@ -67,6 +69,58 @@ public class BookService {
         book.setBookName(bookRequestDTO.getBookName());
         return bookToBookViewConverter.convert(bookRep.save(book));
     }
+
+    public BookView updateListAuthor(Long bookId, AuthorNestedUpdateRequest bookRequestDTO) {
+
+        if(bookRequestDTO.getAuthors().isEmpty()) {
+            throw new IllegalArgumentException("Authors = 0");
+        }
+
+        Book book = getBook(bookId);
+
+        List<AuthorRequestUpdate> authorRequestList = bookRequestDTO.getAuthors();
+        Set<Author> authors = new HashSet<>();
+
+        for (AuthorRequestUpdate authorRequestUpdate : authorRequestList) {
+
+            Long authorId = authorRequestUpdate.getAuthorId();
+
+            if(authorRequestUpdate.getAuthorId() == null && authorRequestUpdate.getAuthorName() == null) {
+                throw new IllegalArgumentException("all attributes of the author object is null");
+            }
+
+            if(authorRequestUpdate.getAuthorId() != null && authorRequestUpdate.getAuthorName() != null) {
+                throw new IllegalArgumentException("all attributes of the author object is not null");
+            }
+
+            if (authorId != null) {
+
+                logger.info("Получен запрос на привязку существующего автора");
+
+                Author author = authorRep.findById(authorRequestUpdate.getAuthorId())
+                        .orElseThrow(() -> new EntityNotFoundException("Author with ID  not found."));
+
+                authors.add(author);
+
+            } else {
+
+                logger.info("Получен запрос на создание нового автора и првязку");
+                Author author = new Author();
+                author.setAuthorName(authorRequestUpdate.getAuthorName());
+                authorRep.save(author);
+                authors.add(author);
+
+            }
+
+        }
+
+        book.setAuthors(authors);
+
+        Book savedBook = bookRep.save(book);
+
+        return bookToBookViewConverter.convert(savedBook);
+    }
+
     public BookView assignExistingAuthor(BookRequestDTO bookRequestDTO){
 
         Long bookId = bookRequestDTO.getBookId();

@@ -1,5 +1,6 @@
 package com.example.books.book.web;
 
+import com.example.books.book.Request.AuthorNestedUpdateRequest;
 import com.example.books.book.Request.BookRequestDTO;
 import com.example.books.book.Request.BookRequestDTOUpdate;
 import com.example.books.book.service.BookService;
@@ -76,6 +77,16 @@ public class BookController {
     )
     public BookView updateBookName(@PathVariable Long bookId, @Valid @RequestBody BookViewNested bookRequestDTO) {
         return service.updateBookName(bookId, bookRequestDTO);
+    }
+
+    @PutMapping("updateListAuthor/{bookId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    @Operation(
+            summary = "Обновление списка связанных авторов"
+    )
+    public BookView updateListAuthor(@PathVariable Long bookId, @Valid @RequestBody AuthorNestedUpdateRequest bookRequestDTO) {
+        return service.updateListAuthor(bookId, bookRequestDTO);
     }
 
     @PostMapping("assignExistingAuthor")
