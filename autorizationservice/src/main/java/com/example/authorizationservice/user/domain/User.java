@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,19 +22,16 @@ public class User {
    )
    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
    @Column(nullable = false)
-   private Long user_id;
+   private Long userId;
 
-   @Column(nullable = false)
-   private String login;
-
-   @Column(nullable = false)
-   private Long rule;
+   @Column(nullable = true)
+   private String role;
 
    @Column(nullable = false)
    private String password;
 
    @Column(nullable = false)
-   private String name;
+   private String username;
 
 
 }

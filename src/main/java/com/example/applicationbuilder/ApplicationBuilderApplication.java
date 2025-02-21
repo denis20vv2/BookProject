@@ -1,6 +1,6 @@
 package com.example.applicationbuilder;
 
-import com.example.authorizationservice.AuthorizationServiceApplication;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
