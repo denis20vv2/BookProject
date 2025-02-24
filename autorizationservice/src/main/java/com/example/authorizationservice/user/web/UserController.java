@@ -3,16 +3,18 @@ package com.example.authorizationservice.user.web;
 import com.example.authorizationservice.authorization.DTO.SignInRequest;
 import com.example.authorizationservice.authorization.DTO.SignUpRequest;
 import com.example.authorizationservice.authorization.JwtResponse;
-import com.example.authorizationservice.authorization.JwtTokenProvider;
+import com.example.authorizationservice.authorization.config.JwtTokenProvider;
+import com.example.authorizationservice.user.domain.User;
 import com.example.authorizationservice.user.rep.UserRep;
 import com.example.authorizationservice.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,25 +57,27 @@ public class UserController {
     @GetMapping("/setRole")
     @ResponseBody
     @Operation(
-            summary = "авторизация сотрудника",
-            description = "авторизация сотрудника"
+            summary = "Выдача роли",
+            description = "Выдача роли"
     )
     public User authorization() {
-        logger.info("Авторизация сотрудника");
+        logger.info("Выдача роли");
         return userService.authorization();
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody SignInRequest signInRequest) {
         try {
+            //logger.info("debug");
             Authentication authentication = authenticationManager.authenticate(
+
                     new UsernamePasswordAuthenticationToken(
+
                             signInRequest.getUsername(),
                             signInRequest.getPassword()
                     )
             );
-
+            //logger.info("debug");
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String jwt = jwtTokenProvider.createToken(authentication);
@@ -81,13 +85,18 @@ public class UserController {
             com.example.authorizationservice.user.domain.User user = userRep.findByUsername(signInRequest.getUsername());
             Map<String, Object> response = null;
 
+            //logger.info("debug");
+
             if (user != null) {
                 response = Map.of("user_id", user.getUserId(), "role", user.getRole());
             }
 
+            //logger.info("debug");
+
             return ResponseEntity.ok(List.of(new JwtResponse(jwt), user));
         } catch (AuthenticationException e) {
-            return ResponseEntity.badRequest().body("Неверное имя пользователя или пароль");
+             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверное имя пользователя или пароль");
+
         }
     }
 
@@ -102,7 +111,7 @@ public class UserController {
         com.example.authorizationservice.user.domain.User newUser = new com.example.authorizationservice.user.domain.User();
         newUser.setUsername(signUpRequest.getUsername());
         newUser.setPassword(encodedPassword);
-        //newUser.setRole(null);
+        newUser.setRole("ROLE_VIEWER");
 
         userRep.save(newUser);
 

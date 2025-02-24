@@ -2,6 +2,7 @@ package com.example.authorizationservice.authorization.DTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Schema(description = "Запрос на регистрацию")
 @Getter
 @Setter
+@AllArgsConstructor
 public class SignUpRequest {
 
     @Schema(description = "Имя пользователя", example = "Ivan")
