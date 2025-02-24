@@ -17,9 +17,12 @@ public class UserService {
 
     private final UserRep userRep;
 
-    public User authorization(){
+    public User setRole(Long userId){
 
-        return null;
+        User user = userRep.findByUserId(userId);
+        user.setRole("ROLE_ADMIN");
+
+        return userRep.save(user);
     }
 
 }

@@ -54,15 +54,15 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/setRole")
+    @GetMapping("/setRole/{userId}")
     @ResponseBody
     @Operation(
             summary = "Выдача роли",
             description = "Выдача роли"
     )
-    public User authorization() {
-        logger.info("Выдача роли");
-        return userService.authorization();
+    public User authorization(@PathVariable Long userId) {
+        logger.info("Выдача роли сотруднику с id:" + userId);
+        return userService.setRole(userId);
     }
 
     @PostMapping("/login")
