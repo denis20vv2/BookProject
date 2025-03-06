@@ -17,3 +17,35 @@ CREATE TABLE "user" (
    CREATE SEQUENCE user_seq
        START WITH 1
        INCREMENT BY 1;
+
+
+   CREATE TABLE cell
+   (
+      cell_id bigint NOT NULL,
+      cell_positionx BIGINT NOT NULL,
+      cell_positiony BIGINT NOT NULL,
+      app_id BIGINT NOT NULL,
+      data jsonb NOT NULL,
+      PRIMARY KEY (cell_id)
+   );
+
+   CREATE SEQUENCE cell_seq
+          START WITH 1
+          INCREMENT BY 1;
+
+   CREATE TABLE app
+      (
+         app_id bigint NOT NULL,
+         name VARCHAR(255) NOT NULL,
+         cell_positiony BIGINT NOT NULL,
+
+         PRIMARY KEY (app_id)
+      );
+
+      CREATE SEQUENCE app_seq
+             START WITH 1
+             INCREMENT BY 1;
+
+
+      ALTER TABLE cell
+      ADD CONSTRAINT fk_app_id FOREIGN KEY (app_id) REFERENCES app (app_id) ON DELETE CASCADE;

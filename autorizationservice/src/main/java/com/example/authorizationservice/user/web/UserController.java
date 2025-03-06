@@ -77,6 +77,7 @@ public class UserController {
         return userService.createUser(createUser);
     }
 
+    //Убрать в сервисный слой в дальнейшем логику метода /login
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody SignInRequest signInRequest) {
         try {
