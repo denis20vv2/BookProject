@@ -33,5 +33,11 @@ public class User {
    @Column(nullable = false)
    private String username;
 
+   public User(String role, String password, String username){
+      this.password = password;
+      this.username = username;
+      this.role = role;
+   }
+
 
 }

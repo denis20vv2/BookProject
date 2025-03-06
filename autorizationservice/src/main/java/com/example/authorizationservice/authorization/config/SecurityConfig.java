@@ -47,7 +47,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
                         .requestMatchers("/api/admin/login").permitAll()
-                        .requestMatchers("/api/admin/registration").permitAll());
+                        .requestMatchers("/api/admin/createUser").hasAuthority("ROLE_ADMIN"));
 
         http
                 .csrf((csrf) -> csrf.disable())

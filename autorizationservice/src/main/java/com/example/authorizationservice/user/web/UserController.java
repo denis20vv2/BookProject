@@ -4,6 +4,7 @@ import com.example.authorizationservice.authorization.DTO.SignInRequest;
 import com.example.authorizationservice.authorization.DTO.SignUpRequest;
 import com.example.authorizationservice.authorization.JwtResponse;
 import com.example.authorizationservice.authorization.config.JwtTokenProvider;
+import com.example.authorizationservice.user.DTO.CreateUser;
 import com.example.authorizationservice.user.domain.User;
 import com.example.authorizationservice.user.rep.UserRep;
 import com.example.authorizationservice.user.service.UserService;
@@ -57,12 +58,23 @@ public class UserController {
     @GetMapping("/setRole/{userId}")
     @ResponseBody
     @Operation(
-            summary = "Выдача роли",
-            description = "Выдача роли"
+            summary = "Изменение роли",
+            description = "Изменение роли"
     )
-    public User authorization(@PathVariable Long userId) {
-        logger.info("Выдача роли сотруднику с id:" + userId);
-        return userService.setRole(userId);
+    public User authorization(@PathVariable Long userId, String role) {
+        logger.info("Изменение роли сотруднику с id:" + userId);
+        return userService.setRole(userId, role);
+    }
+
+    @PostMapping("/createUser")
+    @Operation(
+            summary = "Создание пользоваетля",
+            description = "Создание пользоваетля"
+    )
+    public User CreateUser(@RequestBody CreateUser createUser) {
+        logger.info("Создание нового пользователя:" + createUser.getUsername());
+        //String encodedPassword = passwordEncoder.encode(createUser.getPassword());
+        return userService.createUser(createUser);
     }
 
     @PostMapping("/login")
@@ -100,7 +112,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/registration")
+   /* @PostMapping("/registration")
     public ResponseEntity<?> registerUser(@RequestBody SignUpRequest signUpRequest) {
         if (userRep.findByUsername(signUpRequest.getUsername()) != null) {
             return ResponseEntity.badRequest().body("Ошибка: Пользователь с таким именем уже существует!");
@@ -117,6 +129,6 @@ public class UserController {
 
         return ResponseEntity.ok("Пользователь успешно зарегистрирован!");
 
-    }
+    }*/
 
 }
