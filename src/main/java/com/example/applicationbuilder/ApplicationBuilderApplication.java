@@ -1,10 +1,9 @@
 package com.example.applicationbuilder;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.ComponentScan;
+
+import com.example.authorizationservice.AuthorizationServiceApplication;
 
 public class ApplicationBuilderApplication {
 
@@ -13,6 +12,7 @@ public class ApplicationBuilderApplication {
 
 		new SpringApplicationBuilder(AuthorizationServiceApplication.class)
 				.properties("spring.config.name=authorization-service")
+				.properties("server.port=8080")
 				.run(args);
 
 		/*new SpringApplicationBuilder(ViewerServiceApplication.class)

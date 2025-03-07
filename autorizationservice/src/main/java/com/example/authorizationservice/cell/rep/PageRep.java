@@ -1,0 +1,14 @@
+package com.example.authorizationservice.cell.rep;
+
+
+import com.example.authorizationservice.cell.domain.Page;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PageRep extends JpaRepository<Page, Long> {
+
+    Page findByPageId(Long cellId);
+
+
+}
