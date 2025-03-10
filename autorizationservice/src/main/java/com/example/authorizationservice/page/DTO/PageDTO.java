@@ -1,6 +1,6 @@
-package com.example.authorizationservice.cell.DTO;
+package com.example.authorizationservice.page.DTO;
 
-import com.example.authorizationservice.cell.domain.Data;
+import com.example.authorizationservice.page.domain.Data;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

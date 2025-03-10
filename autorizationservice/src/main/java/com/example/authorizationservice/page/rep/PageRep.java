@@ -1,7 +1,7 @@
-package com.example.authorizationservice.cell.rep;
+package com.example.authorizationservice.page.rep;
 
 
-import com.example.authorizationservice.cell.domain.Page;
+import com.example.authorizationservice.page.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

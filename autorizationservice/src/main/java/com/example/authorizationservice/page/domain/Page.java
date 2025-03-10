@@ -1,4 +1,4 @@
-package com.example.authorizationservice.cell.domain;
+package com.example.authorizationservice.page.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

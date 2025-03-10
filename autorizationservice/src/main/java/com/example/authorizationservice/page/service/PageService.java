@@ -1,8 +1,8 @@
-package com.example.authorizationservice.cell.service;
+package com.example.authorizationservice.page.service;
 
-import com.example.authorizationservice.cell.DTO.PageDTO;
-import com.example.authorizationservice.cell.domain.Page;
-import com.example.authorizationservice.cell.rep.PageRep;
+import com.example.authorizationservice.page.DTO.PageDTO;
+import com.example.authorizationservice.page.domain.Page;
+import com.example.authorizationservice.page.rep.PageRep;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class PageService {
         return pageRep.findByPageId(pageId);
     }
 
-    public Page createpage(PageDTO pageDTO){
+    public Page createPage(PageDTO pageDTO){
 
         Page page = new Page(pageDTO.getData());
 

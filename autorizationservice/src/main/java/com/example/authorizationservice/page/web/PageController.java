@@ -1,8 +1,8 @@
-package com.example.authorizationservice.cell.web;
+package com.example.authorizationservice.page.web;
 
-import com.example.authorizationservice.cell.DTO.PageDTO;
-import com.example.authorizationservice.cell.domain.Page;
-import com.example.authorizationservice.cell.service.PageService;
+import com.example.authorizationservice.page.DTO.PageDTO;
+import com.example.authorizationservice.page.domain.Page;
+import com.example.authorizationservice.page.service.PageService;
 import com.example.authorizationservice.user.web.UserController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,7 +41,7 @@ public class PageController {
     )
     public Page createPage(@RequestBody PageDTO pageDTO) {
         logger.info("Сохдание новой страницы:");
-        return pageService.createpage(pageDTO);
+        return pageService.createPage(pageDTO);
     }
 
 }
