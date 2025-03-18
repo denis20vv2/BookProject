@@ -1,11 +1,13 @@
 package com.example.authorizationservice.page.web;
 
 import com.example.authorizationservice.page.DTO.PageDTO;
+import com.example.authorizationservice.page.domain.Data;
 import com.example.authorizationservice.page.domain.Page;
 import com.example.authorizationservice.page.service.PageService;
 import com.example.authorizationservice.user.web.UserController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ public class PageController {
 
     private final PageService pageService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     @GetMapping("/getPage/{pageId}")
     @ResponseBody
@@ -39,7 +42,7 @@ public class PageController {
             summary = "Создание страницы",
             description = "Создание страницы"
     )
-    public Page createPage(@RequestBody PageDTO pageDTO) {
+    public Page createPage(@Valid @RequestBody PageDTO pageDTO) {
         logger.info("Сохдание новой страницы:");
         return pageService.createPage(pageDTO);
     }

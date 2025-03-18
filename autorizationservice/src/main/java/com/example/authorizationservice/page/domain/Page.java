@@ -1,6 +1,8 @@
 package com.example.authorizationservice.page.domain;
 
+import com.example.authorizationservice.cell.validationСheck.ValidData;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

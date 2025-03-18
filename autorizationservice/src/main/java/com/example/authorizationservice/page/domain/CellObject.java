@@ -1,6 +1,8 @@
 package com.example.authorizationservice.page.domain;
 
+import com.example.authorizationservice.cell.validationСheck.ValidData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +13,9 @@ import lombok.Setter;
 @Setter
 public class CellObject {
 
+    @NotNull
     private String Key;
+
 
     private  Object data;
 
