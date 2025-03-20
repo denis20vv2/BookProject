@@ -14,8 +14,9 @@ import lombok.Setter;
 public class CellObject {
 
     @NotNull
-    private String Key;
+    private String key;
 
+    private  String ownKey;
 
     private  Object data;
 

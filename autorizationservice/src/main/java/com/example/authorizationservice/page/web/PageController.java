@@ -1,5 +1,6 @@
 package com.example.authorizationservice.page.web;
 
+import com.example.authorizationservice.page.DTO.CellMergingRequest;
 import com.example.authorizationservice.page.DTO.PageDTO;
 import com.example.authorizationservice.page.domain.Data;
 import com.example.authorizationservice.page.domain.Page;
@@ -32,7 +33,7 @@ public class PageController {
             description = "Получение страницы"
     )
     public Page getPage(@PathVariable Long pageId) {
-        logger.info("Получение страницы с id:" + pageId);
+        logger.info("Запрос на получение страницы с id:" + pageId);
         return pageService.getPage(pageId);
     }
 
@@ -43,8 +44,19 @@ public class PageController {
             description = "Создание страницы"
     )
     public Page createPage(@Valid @RequestBody PageDTO pageDTO) {
-        logger.info("Сохдание новой страницы:");
+        logger.info("Запрос на сохдание новой страницы:");
         return pageService.createPage(pageDTO);
+    }
+
+    @PutMapping("/mergingCell/{pageId}")
+    @ResponseBody
+    @Operation(
+            summary = "Объединение ячеек",
+            description = "Объединение ячеек"
+    )
+    public Page mergingCell(@RequestBody CellMergingRequest cellMergingRequest) {
+        logger.info("Запрос на сохраненине страницы с объединными ячейками:");
+        return pageService.mergingCell(cellMergingRequest);
     }
 
 }

@@ -81,14 +81,14 @@ public class DataValidator implements ConstraintValidator<ValidData, Data> {
     public boolean isValid(Data data, ConstraintValidatorContext context) {
         List<CellObject> cellObjects = data.getCellObjects();
 
-        if (cellObjects.isEmpty()) {    /// Доработать логику на null для объединения ячеек с NextValid
-            return true;
-        }
+        /*if (cellObjects.isEmpty()) {
+            return false;
+        }*/
 
         for (CellObject cellObject : cellObjects) {
             Object object = cellObject.getData();
 
-            if (cellObject.getKey() == null && object != null) {    /// Доработать логику на null для объединения ячеек с NextValid
+            if (cellObject.getKey() == null) {
                 context.buildConstraintViolationWithTemplate("Data is not a valid (Key == null, data !=null) ")
                         .addPropertyNode("data")
                         .addConstraintViolation();
@@ -130,11 +130,8 @@ public class DataValidator implements ConstraintValidator<ValidData, Data> {
                     return false;
                 }
             } else {
-                logger.error("Data is null for cellObject with key: {}", cellObject.getKey());
-                context.buildConstraintViolationWithTemplate("Data cannot be null or empty")
-                        .addPropertyNode("data")
-                        .addConstraintViolation();
-                return false;
+                logger.error("Data is null, Key = " + cellObject.getKey());
+                return true;
             }
         }
         return true;
