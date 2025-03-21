@@ -8,11 +8,14 @@ import com.example.authorizationservice.page.domain.CellObject;
 import com.example.authorizationservice.page.domain.Data;
 import com.example.authorizationservice.page.domain.Page;
 import com.example.authorizationservice.page.rep.PageRep;
+import com.example.authorizationservice.user.web.UserController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,6 +30,8 @@ import java.util.Objects;
 public class PageService {
 
     private  Merging merging;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     @Autowired
     private  PageRep pageRep;
@@ -103,4 +108,53 @@ public class PageService {
             return page;
         }else throw new IllegalArgumentException("ошибка проерки возможности объединения ячеек");
     }
+
+    public Page ungroupingCell(CellMergingRequest cellMergingRequest){
+
+        Page page = pageRep.findByPageId(cellMergingRequest.getPageId());
+        if(page == null) throw new EntityNotFoundException("Ошибка: page с таким id не найден: " + cellMergingRequest.getPageId());
+
+        page = checkUngroupingCell(page,cellMergingRequest.getKeys() );
+
+        return pageRep.save(page);
+    }
+
+    public Page checkUngroupingCell(Page page, List<String> keysMerging){
+
+        List<CellObject> cellObjects = page.getData().getCellObjects();
+        List<CellObject> objects = new ArrayList<>();
+
+        for(CellObject cellObject : cellObjects){
+            String key = cellObject.getKey();
+            //keys.add(key);
+
+            if (keysMerging.contains(key)){
+
+                if (cellObject.getOwnKey() != null){
+
+
+                cellObject.setKey(cellObject.getOwnKey());
+                cellObject.setOwnKey(null);
+                objects.add(cellObject);
+
+            }else  { // Тут уточнить как именно лучше разъединять ячейки Нужнали обработка ошибок если хотя бы одна ячейка
+                    // выбрана ошибочно ?
+                    // разгруппировать те, что можно отсоединить, остальные игнорить?
+                    //throw new EntityNotFoundException("Ошибка: не возможно разгрупировать ячейку с id: " + key +" у ячейки отсутствует ownKey");
+                    logger.info("Ошибка: не возможно разгрупировать ячейку с id: " + key +" у ячейки отсутствует ownKey");
+                    objects.add(cellObject);
+                }
+
+            }else objects.add(cellObject);
+        }
+
+        Data data = new Data();
+        data.setCellObjects(objects);
+        page.setData(data);
+
+        return page;
+    }
+
+
+
 }

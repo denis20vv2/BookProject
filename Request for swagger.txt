@@ -2,7 +2,7 @@
   "data": {
     "cellObjects": [
       {
-        "Key": "C1:1",
+        "key": "C1:1",
         "data": {
           "Button": {
             "id": "btn_1",
@@ -23,7 +23,7 @@
         }
       },
       {
-        "Key": "C1:2",
+        "key": "C1:2",
         "data": {
           "Table": {
             "columns": [
@@ -90,7 +90,7 @@
         }
       },
       {
-        "Key": "C1:3",
+        "key": "C1:3",
         "data": {
           "Link": {
             "text": "Подробнее",
@@ -111,7 +111,7 @@
         }
       },
       {
-        "Key": "C2:1",
+        "key": "C2:1",
         "data": {
           "Checkbox": {
             "id": "chk_1",
@@ -127,7 +127,7 @@
         }
       },
       {
-        "Key": "C2:2",
+        "key": "C2:2",
         "data": {
           "Form": {
             "fields": [
@@ -177,7 +177,7 @@
         }
       },
       {
-        "Key": "C2:3",
+        "key": "C2:3",
         "data": {
           "Dropdown": {
             "id": "user_role",
@@ -220,7 +220,7 @@
         }
       },
       {
-        "Key": "C3:1",
+        "key": "C3:1",
         "data": {
           "RadioGroup": {
             "id": "user_gender",
@@ -257,7 +257,7 @@
         }
       },
       {
-        "Key": "C3:2",
+        "key": "C3:2",
         "data": {
           "Filter": {
             "id": "page_filters",
@@ -294,7 +294,7 @@
         }
       },
       {
-        "Key": "C3:3",
+        "key": "C3:3",
         "data": {
           "TextBlock": {
             "id": "text_block_1",
@@ -310,7 +310,7 @@
         }
       },
       {
-        "Key": "C4:1",
+        "key": "C4:1",
         "data": {
           "Frame": {
             "id": "frame_1",
@@ -325,7 +325,7 @@
         }
       },
       {
-        "Key": "C4:2",
+        "key": "C4:2",
         "data": {
           "Image": {
             "id": "img_1",
@@ -341,7 +341,7 @@
         }
       },
       {
-        "Key": "C4:3",
+        "key": "C4:3",
         "data": {
           "Container": {
             "id": "container_1",

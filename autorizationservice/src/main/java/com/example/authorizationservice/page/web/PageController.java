@@ -59,4 +59,15 @@ public class PageController {
         return pageService.mergingCell(cellMergingRequest);
     }
 
+    @PutMapping("/ungroupingCell/{pageId}")
+    @ResponseBody
+    @Operation(
+            summary = "разъединение ячеек",
+            description = "разъединение ячеек"
+    )
+    public Page ungroupingCell(@RequestBody CellMergingRequest cellMergingRequest) {
+        logger.info("Запрос на сохраненине страницы с разъединенными ячейками:");
+        return pageService.ungroupingCell(cellMergingRequest);
+    }
+
 }

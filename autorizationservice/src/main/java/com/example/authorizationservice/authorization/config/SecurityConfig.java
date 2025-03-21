@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/page/createPage").permitAll()
                         .requestMatchers("/api/page/getPage/{pageId}").permitAll()
                         .requestMatchers("/api/page/mergingCell/{pageId}").permitAll()
+                        .requestMatchers("/api/page/ungroupingCell/{pageId}").permitAll()
                         .requestMatchers("/api/admin/createUser").hasAuthority("ROLE_ADMIN"));
 
         http
