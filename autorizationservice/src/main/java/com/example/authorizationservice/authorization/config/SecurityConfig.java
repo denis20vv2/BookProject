@@ -40,7 +40,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/admin/setRole/{userId}").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/admin/setRole/{userId}").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/page/getPage/{pageId}").permitAll()
                         .requestMatchers("/api/page/mergingCell/{pageId}").permitAll()
                         .requestMatchers("/api/page/ungroupingCell/{pageId}").permitAll()
-                        .requestMatchers("/api/admin/createUser").hasAuthority("ROLE_ADMIN"));
+                        .requestMatchers("/api/admin/createUser").permitAll());
 
         http
                 .csrf((csrf) -> csrf.disable())
