@@ -13,37 +13,19 @@ public class DropdownConverter {
             Map<String, Object> map = (Map<String, Object>) dataMap;
             Dropdown dropdown = new Dropdown();
 
+            dropdown.setValue((String) map.get("value"));
             dropdown.setId((String) map.get("id"));
-            dropdown.setLabel((String) map.get("label"));
-            dropdown.setPlaceholder((String) map.get("placeholder"));
-            dropdown.setSearchable((boolean) map.get("searchable"));
-            dropdown.setAllowCustomInput((boolean) map.get("allowCustomInput"));
-            dropdown.setMultiple((boolean) map.get("multiple"));
-            dropdown.setSelected((String) map.get("selected"));
+            dropdown.setType((String) map.get("type"));
+            dropdown.setActive((Boolean) map.get("active"));
 
-
-            if (map.containsKey("options") && map.get("options") instanceof List) {
-                List<Map<String, Object>> optionsList = (List<Map<String, Object>>) map.get("options");
-                List<Option> options = optionsList.stream()
-                        .map(optionMap -> convertToOption(optionMap))
+            if (map.containsKey("optionsList") && map.get("optionsList") instanceof List<?>) {
+                List<?> rawList = (List<?>) map.get("optionsList");
+                List<String> optionsList = rawList.stream()
+                        .filter(item -> item instanceof String)
+                        .map(item -> (String) item)
                         .collect(Collectors.toList());
-                dropdown.setOptions(options);
-            }
 
-
-            if (map.containsKey("validation") && map.get("validation") instanceof Map) {
-                Map<String, Object> validationMap = (Map<String, Object>) map.get("validation");
-                ValidationDropdown validationDropdown = convertToValidation(validationMap);
-                dropdown.setValidation(validationDropdown);
-            }
-
-
-            if (map.containsKey("styles") && map.get("styles") instanceof List) {
-                List<Map<String, Object>> stylesList = (List<Map<String, Object>>) map.get("styles");
-                List<StyleDropdown> styles = stylesList.stream()
-                        .map(styleMap -> convertToStyleDropdown(styleMap))
-                        .collect(Collectors.toList());
-                dropdown.setStyles(styles);
+                dropdown.setOptionsList(optionsList);
             }
 
             return dropdown;
@@ -51,7 +33,7 @@ public class DropdownConverter {
         throw new IllegalArgumentException("Invalid object type");
     }
 
-    public static Option convertToOption(Map<String, Object> optionMap) {
+  /*  public static Option convertToOption(Map<String, Object> optionMap) {
         Option option = new Option();
         option.setId((String) optionMap.get("id"));
         option.setLabel((String) optionMap.get("label"));
@@ -73,6 +55,6 @@ public class DropdownConverter {
         style.setBackgroundColor((String) styleMap.get("backgroundColor"));
         style.setBorderColor((String) styleMap.get("borderColor"));
         return style;
-    }
+    }*/
 }
 

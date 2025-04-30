@@ -15,52 +15,29 @@ import java.util.*;
 @NoArgsConstructor
 public class Dropdown {
 
-    @NotNull(message = "type is null")
+    @NotNull
     private String id;
 
-    @NotNull(message = "label is null")
-    private String label;
+    @NotNull
+    private String value;
 
-    @NotNull(message = "placeholder is null")
-    private String placeholder;
+    @NotNull
+    private String type;
 
-    @NotNull(message = "searchable is null")
-    private boolean searchable;
+    @NotNull
+    private Boolean active;
 
-    @NotNull(message = "allowCustomInput is null")
-    private boolean allowCustomInput;
-
-    @NotNull(message = "multiple is null")
-    private boolean multiple;
-
-    @NotNull(message = "options is null")
-    @NestedValid
-    private List<Option> options;
-
-    @NotNull(message = "selected is null")
-    private String selected;
-
-    @NotNull(message = "validation is null")
-    @NestedValid
-    private ValidationDropdown validation;
-
-    @NotNull(message = "styles is null")
-    @NestedValid
-    private List<StyleDropdown> styles = new ArrayList<>();
+    @NotNull
+    private List<String> optionsList;
 
     @Override
     public String toString() {
         return "Dropdown{" +
                 "id='" + id + '\'' +
-                ", label='" + label + '\'' +
-                ", placeholder='" + placeholder + '\'' +
-                ", searchable=" + searchable +
-                ", allowCustomInput=" + allowCustomInput +
-                ", multiple=" + multiple +
-                ", options=" + options +
-                ", selected='" + selected + '\'' +
-                ", validation=" + validation +
-                ", styles=" + styles +
+                "value='" + value + '\'' +
+                ", type='" + type + '\'' +
+                ", active='" + active + '\'' +
+                ", optionsList=" + optionsList +
                 '}';
     }
 

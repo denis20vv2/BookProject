@@ -9,15 +9,14 @@ public class TextBlockConverter {
             TextBlock textBlock = new TextBlock();
 
             textBlock.setId((String) map.get("id"));
-            textBlock.setLabel((String) map.get("label"));
             textBlock.setValue((String) map.get("value"));
             textBlock.setType((String) map.get("type"));
 
-            if (map.containsKey("styles") && map.get("styles") instanceof Map) {
+           /* if (map.containsKey("styles") && map.get("styles") instanceof Map) {
                 Map<String, Object> stylesMap = (Map<String, Object>) map.get("styles");
                 StyleTextBlock styles = convertToStyleTextBlock(stylesMap);
                 textBlock.setStyles(styles);
-            }
+            }*/
 
             return textBlock;
         }

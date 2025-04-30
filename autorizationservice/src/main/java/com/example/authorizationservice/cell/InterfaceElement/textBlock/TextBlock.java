@@ -16,27 +16,20 @@ public class TextBlock {
     @NotNull(message = "type is null")
     private String id;
 
-    @NotNull(message = "label is null")
-    private String label;
-
     @NotNull(message = "type is null")
     private String type;
 
     @NotNull(message = "value is null")
     private String value;
 
-    @NotNull(message = "styles is null")
-    @NestedValid
-    private StyleTextBlock styles;
+
 
     @Override
     public String toString() {
         return "TextBlock{" +
                 "id='" + id + '\'' +
-                ", label='" + label + '\'' +
                 ", value='" + value + '\'' +
                 ", value='" + type + '\'' +
-                ", styles=" + styles +
                 '}';
     }
 

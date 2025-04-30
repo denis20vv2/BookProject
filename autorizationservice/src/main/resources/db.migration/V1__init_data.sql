@@ -30,4 +30,17 @@ CREATE TABLE "user" (
           START WITH 1
           INCREMENT BY 1;
 
+CREATE TABLE "table"
+   (
+      id bigint NOT NULL,
+      data jsonb NOT NULL,
+      columns jsonb NOT NULL,
+      filter_group jsonb NOT NULL,
+      PRIMARY KEY (id)
+   );
+
+   CREATE SEQUENCE table_seq
+          START WITH 1
+          INCREMENT BY 1;
+
 

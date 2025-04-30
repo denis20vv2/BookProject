@@ -17,30 +17,18 @@ public class Checkbox {
     private String id;
 
     @NotNull(message = "label is null")
-    private String label;
+    private String value;
 
     @NotNull(message = "checked is null")
-    private boolean checked;
+    private String type;
 
-    @NotNull(message = "disabled is null")
-    private boolean disabled;
-
-    @NotNull(message = "indeterminate is null")
-    private boolean indeterminate;
-
-    @NotNull(message = "id is null")
-    @NestedValid
-    private StyleCheckbox style;
 
     @Override
     public String toString() {
         return "Checkbox{" +
                 "id='" + id + '\'' +
-                ", label='" + label + '\'' +
-                ", checked='" + checked + '\'' +
-                ", disabled='" + disabled + '\'' +
-                ", indeterminate='" + indeterminate + '\'' +
-                ", styles=" + style +
+                ", value='" + value + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }
