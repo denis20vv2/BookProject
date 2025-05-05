@@ -31,16 +31,17 @@ public class TableDTO {
         @Schema(
                 description = "Данные таблицы",
                 example = "[" +
-                        "{\"col1\":{\"value\":\"value1\",\"type\":\"INPUT\"},\"col2\":{\"value\":\"value2\",\"type\":\"INPUT\"}}," +
-                        "{\"col1\":{\"value\":\"opt221\",\"type\":\"DROPDOWN\",\"active\":false,\"optionsList\":[\"opt1\",\"opt221\",\"opt133\"]}," +
-                        "\"col2\":{\"value\":\"opt3\",\"type\":\"DROPDOWN\",\"optionsList\":[\"opt3\",\"opt4\"]}}," +
-                        "{\"col1\":{\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"value\":\"smth\",\"type\":\"INPUT\"}}," +
-                        "{\"col1\":{\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"value\":\"true\",\"type\":\"CHECKBOX\"}}," +
-                        "{\"col1\":{\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"value\":\"true\",\"type\":\"CHECKBOX\"}}," +
-                        "{\"col1\":{\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"value\":\"true\",\"type\":\"CHECKBOX\"}}," +
-                        "{\"col1\":{\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"value\":\"data\",\"type\":\"INPUT\"}}" +
+                        "{\"col1\":{\"id\":\"id1\",\"value\":\"value1\",\"type\":\"INPUT\"},\"col2\":{\"id\":\"id2\",\"value\":\"value2\",\"type\":\"INPUT\"}}," +
+                        "{\"col1\":{\"id\":\"id3\",\"value\":\"opt221\",\"type\":\"DROPDOWN\",\"active\":false,\"optionsList\":[\"opt1\",\"opt221\",\"opt133\"]}," +
+                        "\"col2\":{\"id\":\"id4\",\"value\":\"opt3\",\"type\":\"DROPDOWN\",\"optionsList\":[\"opt3\",\"opt4\"]}}," +
+                        "{\"col1\":{\"id\":\"id5\",\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"id\":\"id6\",\"value\":\"smth\",\"type\":\"INPUT\"}}," +
+                        "{\"col1\":{\"id\":\"id7\",\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"id\":\"id8\",\"value\":\"true\",\"type\":\"CHECKBOX\"}}," +
+                        "{\"col1\":{\"id\":\"id9\",\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"id\":\"id10\",\"value\":\"true\",\"type\":\"CHECKBOX\"}}," +
+                        "{\"col1\":{\"id\":\"id11\",\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"id\":\"id12\",\"value\":\"true\",\"type\":\"CHECKBOX\"}}," +
+                        "{\"col1\":{\"id\":\"id13\",\"value\":\"true\",\"type\":\"CHECKBOX\"},\"col2\":{\"id\":\"id14\",\"value\":\"data\",\"type\":\"INPUT\"}}" +
                         "]"
         )
+
         @ValidTable
         private List<Map<String, Object>> data = new ArrayList<>();
 

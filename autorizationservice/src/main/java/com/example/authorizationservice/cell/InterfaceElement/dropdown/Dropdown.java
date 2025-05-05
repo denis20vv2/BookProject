@@ -1,6 +1,7 @@
 package com.example.authorizationservice.cell.InterfaceElement.dropdown;
 
 import com.example.authorizationservice.cell.validationСheck.NestedValid;
+import com.example.authorizationservice.table.domain.InterfaceElement;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Dropdown {
+public class Dropdown implements InterfaceElement {
 
     @NotNull
     private String id;

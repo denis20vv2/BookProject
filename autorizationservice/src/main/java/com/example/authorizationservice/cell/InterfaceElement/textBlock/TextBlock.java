@@ -1,6 +1,7 @@
 package com.example.authorizationservice.cell.InterfaceElement.textBlock;
 
 import com.example.authorizationservice.cell.validationСheck.NestedValid;
+import com.example.authorizationservice.table.domain.InterfaceElement;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TextBlock {
+public class TextBlock implements InterfaceElement {
 
     @NotNull(message = "type is null")
     private String id;
