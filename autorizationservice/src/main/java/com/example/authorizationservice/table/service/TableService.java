@@ -3,16 +3,23 @@ package com.example.authorizationservice.table.service;
 import com.example.authorizationservice.cell.InterfaceElement.checkbox.Checkbox;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.Dropdown;
 import com.example.authorizationservice.cell.InterfaceElement.textBlock.TextBlock;
+import com.example.authorizationservice.table.converter.TableToListTableViewConverter;
 import com.example.authorizationservice.table.domain.InterfaceElement;
 import com.example.authorizationservice.table.dto.TableDTO;
 import com.example.authorizationservice.table.rep.TableRep;
+import com.example.authorizationservice.table.view.TableView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.example.authorizationservice.table.domain.Table;
 import org.webjars.NotFoundException;
+import org.springframework.data.domain.Page;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +36,14 @@ public class TableService {
     private TableRep tableRep;
 
     @Autowired
+    private TableToListTableViewConverter tableToListTableViewConverter;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     public Table saveTable(TableDTO tableDTO) {
 
-        Table table = new Table(tableDTO.getColumns(), tableDTO.getData(), tableDTO.getFilterGroup());
+        Table table = new Table(tableDTO.getName(), tableDTO.getColumns(), tableDTO.getData(), tableDTO.getAvailableFilters(), tableDTO.getAppliedFilters() );
 
         return tableRep.save(table);
     }
@@ -51,14 +61,14 @@ public class TableService {
                 Object existing = entry.getValue();
 
 
-                // Если объект в ячейке таблицы - это Map, то десериализуем его в нужный тип
+
                 if (existing instanceof Map) {
                     Map<String, Object> rawComponent = (Map<String, Object>) existing;
                     String type = (String) rawComponent.get("type");
 
-                    // Десериализуем компонент в правильный тип в зависимости от типа компонента
+
                     InterfaceElement typedComponent = convertToComponent(type, rawComponent);
-                    entry.setValue(typedComponent);  // Заменяем Map на реальный объект для дальнейших операций
+                    entry.setValue(typedComponent);
 
                     existing = typedComponent;
                 }
@@ -115,5 +125,17 @@ public class TableService {
                 .orElseThrow(() -> new NotFoundException("Таблица с id " + id + " не найдена"));
     }
 
+
+    public List<TableView> getAllTables(int page, int size){
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+
+        return tableRep.findAll(pageable)
+                .map(tableToListTableViewConverter::convert)
+                .toList();
+
+       /* return tableRep.findById(id)
+                .orElseThrow(() -> new NotFoundException("Таблица с id " + id + " не найдена"));*/
+    }
 
 }

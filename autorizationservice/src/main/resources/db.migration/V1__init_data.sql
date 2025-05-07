@@ -33,9 +33,11 @@ CREATE TABLE "user" (
 CREATE TABLE "table"
    (
       id bigint NOT NULL,
+      name VARCHAR(255) NOT NULL,
       data jsonb NOT NULL,
       columns jsonb NOT NULL,
-      filter_group jsonb NOT NULL,
+      available_filters jsonb,
+      applied_filters jsonb,
       PRIMARY KEY (id)
    );
 

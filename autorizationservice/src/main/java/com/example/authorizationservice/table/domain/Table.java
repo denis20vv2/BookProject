@@ -30,6 +30,10 @@ public class Table {
     private Long id;
 
     @NotNull
+    private String name;
+
+
+    @NotNull
     @JdbcTypeCode(SqlTypes.JSON)
     private List<Column> columns;
 
@@ -38,12 +42,19 @@ public class Table {
     private List<Map<String, Object>> data;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    private FilterGroup filterGroup ;
+    private AvailableFilters availableFilters ;
 
-    public Table(List<Column> columns, List<Map<String, Object>> data, FilterGroup filterGroup ){
+    @JdbcTypeCode(SqlTypes.JSON)
+    private AvailableFilters appliedFilters ;
+
+
+
+    public Table(String name, List<Column> columns, List<Map<String, Object>> data, AvailableFilters availableFilters, AvailableFilters appliedFilters ){
+        this.name = name;
         this.columns = columns;
         this.data = data;
-        this.filterGroup = filterGroup;
+        this.availableFilters = availableFilters;
+        this.appliedFilters = appliedFilters;
     }
 
 }

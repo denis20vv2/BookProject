@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class FilterGroup {
+public class AvailableFilters {
 
     @NotNull(message = "name = null")
     private String name;

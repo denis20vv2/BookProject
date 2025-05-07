@@ -2,13 +2,15 @@ package com.example.authorizationservice.table.dto;
 
 
 import com.example.authorizationservice.table.domain.Column;
-import com.example.authorizationservice.table.domain.FilterGroup;
+import com.example.authorizationservice.table.domain.AvailableFilters;
 import com.example.authorizationservice.table.validator.ValidTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,9 @@ public class TableDTO {
         @NotNull
         @Valid
         private List< @Valid Column> columns;
+
+        @NotNull
+        private String name;
 
         @Schema(
                 description = "Данные таблицы",
@@ -49,9 +54,10 @@ public class TableDTO {
                 description = "Группа фильтров",
                 example = "{\"name\":\"filterGroupItem\",\"label\":\"item1\",\"filters\":[{\"name\":\"1\",\"type\":\"type1\",\"label\":\"label1\"},{\"name\":\"2\",\"type\":\"type2\",\"label\":\"label2\"}]}"
         )
-        @ValidTable
-        @NotNull
-        private FilterGroup filterGroup;
+        //@ValidTable
+        private AvailableFilters availableFilters;
 
+
+        private AvailableFilters appliedFilters;
 
 }

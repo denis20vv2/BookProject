@@ -1,10 +1,12 @@
 package com.example.authorizationservice.table.web;
 
 
+//import com.example.authorizationservice.page.domain.Page;
 import com.example.authorizationservice.table.domain.InterfaceElement;
 import com.example.authorizationservice.table.dto.ComponentWrapper;
 import com.example.authorizationservice.table.dto.TableDTO;
 import com.example.authorizationservice.table.service.TableService;
+import com.example.authorizationservice.table.view.TableView;
 import com.example.authorizationservice.user.web.UserController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.authorizationservice.table.domain.Table;
 import com.example.authorizationservice.table.service.ComponentFactory;
 import com.example.authorizationservice.table.service.ValidationService;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 
 @RestController
@@ -63,4 +68,27 @@ public class TableController {
 
         return tableService.saveElement(parsed);
     }
+
+    @GetMapping("/getTable/{id}")
+    @ResponseBody
+    @Operation(
+            summary = "Получение таблицы по id",
+            description = "Получение таблицы по id"
+    )
+    public Table getTable(@PathVariable Long id) {
+        logger.info("Запрос на получение таблицы с id:" + id);
+        return tableService.getTable(id);
+    }
+
+    @GetMapping("/getAllTables")
+    @ResponseBody
+    @Operation(
+            summary = "Запрос на получение списка таблиц",
+            description = "Запрос на получение списка таблиц"
+    )
+    public List<TableView> getAllTables(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size ) {
+        logger.info("Запрос на получение списка таблиц:");
+        return tableService.getAllTables(page, size);
+    }
+
 }

@@ -3,7 +3,7 @@ package com.example.authorizationservice.table.validator;
 
 import com.example.authorizationservice.cell.InterfaceElement.table.Column;
 
-import com.example.authorizationservice.table.domain.FilterGroup;
+import com.example.authorizationservice.table.domain.AvailableFilters;
 import com.example.authorizationservice.user.web.UserController;
 import jakarta.validation.*;
 import lombok.AllArgsConstructor;
@@ -86,8 +86,8 @@ public class TableValidator implements ConstraintValidator<ValidTable, Object> {
                 return true;
             }
 
-            if (object instanceof FilterGroup) {
-                FilterGroup filterGroup = (FilterGroup) object;
+            if (object instanceof AvailableFilters) {
+                AvailableFilters filterGroup = (AvailableFilters) object;
                 return validateFilterGroup(filterGroup, context); ///
             } else {
                 logger.error("Unsupported type: {}", object.getClass().getSimpleName());
@@ -105,9 +105,9 @@ public class TableValidator implements ConstraintValidator<ValidTable, Object> {
         }
     }
 
-    private boolean validateFilterGroup(FilterGroup filterGroup, ConstraintValidatorContext context) {
+    private boolean validateFilterGroup(AvailableFilters filterGroup, ConstraintValidatorContext context) {
         logger.info("Before Validation - filterGroup: {}", filterGroup);
-        Set<ConstraintViolation<FilterGroup>> violations = validator.validate(filterGroup);
+        Set<ConstraintViolation<AvailableFilters>> violations = validator.validate(filterGroup);
         return handleViolations(violations, context);
     }
 

@@ -53,6 +53,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/page/ungroupingCell/{pageId}").permitAll()
                         .requestMatchers("/api/table/saveTable").permitAll()
                         .requestMatchers("/api/table/saveElement").permitAll()
+                        .requestMatchers("/api/table/getTable/{id}").permitAll()
+                        .requestMatchers("/api/table/getAllTables").permitAll()
                         .requestMatchers("/api/admin/createUser").permitAll());
 
         http
