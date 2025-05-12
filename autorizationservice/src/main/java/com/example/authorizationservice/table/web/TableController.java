@@ -31,6 +31,7 @@ import java.util.List;
 @RequestMapping("/api/table")
 @Tag(name="table")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @Validated
 public class TableController {
 
