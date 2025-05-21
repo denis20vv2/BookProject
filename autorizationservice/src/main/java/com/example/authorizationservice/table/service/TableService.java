@@ -160,8 +160,18 @@ public class TableService {
 
     public Table getTable(Long id){
 
-        return tableRep.findById(id)
+        return  tableRep.findById(id)
                 .orElseThrow(() -> new NotFoundException("Таблица с id " + id + " не найдена"));
+
+
+    }
+
+    public Table getTableById(Long id){
+
+        Table table = tableRep.findById(id)
+                .orElseThrow(() -> new NotFoundException("Таблица с id " + id + " не найдена"));
+
+        return applyingFilters(table);
     }
 
 

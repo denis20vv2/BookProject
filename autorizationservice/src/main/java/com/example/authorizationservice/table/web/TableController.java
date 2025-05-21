@@ -102,7 +102,7 @@ public class TableController {
     )
     public Table getTable(@PathVariable Long id) {
         logger.info("Запрос на получение таблицы с id:" + id);
-        return tableService.getTable(id);
+        return tableService.getTableById(id);
     }
 
     @GetMapping("/getAllTables")
