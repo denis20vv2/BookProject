@@ -17,6 +17,8 @@ public class ComponentFactory {
         this.objectMapper = objectMapper;
     }
 
+    ///////////////добавить валидацию проверок id внутри объектов!
+
     public InterfaceElement parse(String type, JsonNode data) {
         switch (type) {
             case "TextBlock":

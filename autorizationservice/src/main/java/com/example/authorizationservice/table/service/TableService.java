@@ -48,6 +48,11 @@ public class TableService {
         return tableRep.save(table);
     }
 
+    public Table changeTable(Table table) {
+
+        return tableRep.save(table);
+    }
+
 
 
     public Table saveElement(InterfaceElement newComponent) {

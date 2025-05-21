@@ -42,6 +42,18 @@ public class TableController {
 
     private final TableService tableService;
 
+    @PutMapping("/changeTable")
+    @ResponseBody
+    @Operation(
+            summary = "Изменение таблицы",
+            description = "Изменение таблицы"
+    )
+    public Table changeTable(@Valid  @RequestBody Table table) {
+
+        logger.info("Запрос на изменение таблицы:");
+        return tableService.changeTable(table);
+    }
+
     @PostMapping("/saveTable")
     @ResponseBody
     @Operation(
@@ -54,7 +66,19 @@ public class TableController {
         return tableService.saveTable(tableDTO);
     }
 
-    @PostMapping("/saveElement")
+    /*@PostMapping("/addingFilters")
+    @ResponseBody
+    @Operation(
+            summary = "Применение фильтров",
+            description = "Применение фильтров"
+    )
+    public Table saveTable(@Valid  @RequestBody TableDTO tableDTO) {
+
+        logger.info("Запрос на сохдание новой таблицы:");
+        return tableService.saveTable(tableDTO);
+    }*/
+
+    /*@PostMapping("/saveElement")
     @ResponseBody
     @Operation(
             summary = "Создание таблицы",
@@ -68,7 +92,7 @@ public class TableController {
         validationService.validateComponent(parsed);
 
         return tableService.saveElement(parsed);
-    }
+    }*/
 
     @GetMapping("/getTable/{id}")
     @ResponseBody
