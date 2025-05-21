@@ -66,17 +66,17 @@ public class TableController {
         return tableService.saveTable(tableDTO);
     }
 
-    /*@PostMapping("/addingFilters")
+    @PutMapping("/applyingFilters")
     @ResponseBody
     @Operation(
             summary = "Применение фильтров",
             description = "Применение фильтров"
     )
-    public Table saveTable(@Valid  @RequestBody TableDTO tableDTO) {
+    public Table applyingFilters(@Valid  @RequestBody Table table) {
 
-        logger.info("Запрос на сохдание новой таблицы:");
-        return tableService.saveTable(tableDTO);
-    }*/
+        logger.info("Запрос на применение фильтров:");
+        return tableService.applyingFilters(table);
+    }
 
     /*@PostMapping("/saveElement")
     @ResponseBody

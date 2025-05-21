@@ -4,6 +4,8 @@ import com.example.authorizationservice.cell.InterfaceElement.checkbox.Checkbox;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.Dropdown;
 import com.example.authorizationservice.cell.InterfaceElement.textBlock.TextBlock;
 import com.example.authorizationservice.table.converter.TableToListTableViewConverter;
+import com.example.authorizationservice.table.domain.Column;
+import com.example.authorizationservice.table.domain.Filter;
 import com.example.authorizationservice.table.domain.InterfaceElement;
 import com.example.authorizationservice.table.dto.TableDTO;
 import com.example.authorizationservice.table.rep.TableRep;
@@ -21,10 +23,7 @@ import org.webjars.NotFoundException;
 import org.springframework.data.domain.Page;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 @AllArgsConstructor
@@ -53,6 +52,41 @@ public class TableService {
         return tableRep.save(table);
     }
 
+    public Table applyingFilters(Table table) {
+
+
+
+            Table existingTable = getTable(table.getId());
+
+            existingTable.setAppliedFilters(table.getAppliedFilters());
+
+            tableRep.save(existingTable);
+
+        if(table.getAppliedFilters() != null) {
+
+            List<Filter> filters = table.getAppliedFilters().getFilters();
+
+            List<Map<String, Object>> data = table.getData();
+            List<Column> columns = table.getColumns();
+
+            for (Filter filter : filters) {
+
+                columns = getColumnData(columns, filter.getLabel());
+
+                data = getFilteredData(data, filter.getLabel());
+
+            }
+            existingTable.setData(data);
+            existingTable.setColumns(columns);
+        }
+        return existingTable;
+    }
+
+    public List<Column> getColumnData(List<Column> columns, String filter ){
+
+        columns.removeIf(column -> filter.equals(column.getAccessor()));
+        return columns;
+    }
 
 
     public Table saveElement(InterfaceElement newComponent) {
@@ -141,6 +175,17 @@ public class TableService {
 
        /* return tableRep.findById(id)
                 .orElseThrow(() -> new NotFoundException("Таблица с id " + id + " не найдена"));*/
+    }
+
+    public List<Map<String, Object>> getFilteredData(List<Map<String, Object>> data, String filter){
+
+
+        for (Map<String, Object> row : data) {
+
+            row.remove(filter);
+        }
+
+        return data;
     }
 
 }

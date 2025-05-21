@@ -56,8 +56,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/table/saveElement").permitAll()
                         .requestMatchers("/api/table/getTable/{id}").permitAll()
                         .requestMatchers("/api/table/getAllTables").permitAll()
+                        .requestMatchers("/api/table/applyingFilters").permitAll()
                         .requestMatchers("/api/admin/createUser").permitAll());
-
         http
                 .csrf((csrf) -> csrf.disable())
         ;
