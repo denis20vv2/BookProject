@@ -54,8 +54,6 @@ public class TableService {
 
     public Table applyingFilters(Table table) {
 
-
-
             Table existingTable = getTable(table.getId());
 
             existingTable.setAppliedFilters(table.getAppliedFilters());
