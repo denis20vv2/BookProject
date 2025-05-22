@@ -64,8 +64,8 @@ public class TableService {
 
             List<Filter> filters = table.getAppliedFilters().getFilters();
 
-            List<Map<String, Object>> data = table.getData();
-            List<Column> columns = table.getColumns();
+            List<Map<String, Object>> data = existingTable.getData();
+            List<Column> columns = existingTable.getColumns();
 
             for (Filter filter : filters) {
 
