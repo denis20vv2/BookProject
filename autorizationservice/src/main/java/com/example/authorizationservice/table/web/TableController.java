@@ -2,8 +2,6 @@ package com.example.authorizationservice.table.web;
 
 
 //import com.example.authorizationservice.page.domain.Page;
-import com.example.authorizationservice.table.domain.InterfaceElement;
-import com.example.authorizationservice.table.dto.ComponentWrapper;
 import com.example.authorizationservice.table.dto.TableDTO;
 import com.example.authorizationservice.table.service.TableService;
 import com.example.authorizationservice.table.view.TableView;
@@ -11,18 +9,14 @@ import com.example.authorizationservice.user.web.UserController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.authorizationservice.table.domain.Table;
 import com.example.authorizationservice.table.service.ComponentFactory;
 import com.example.authorizationservice.table.service.ValidationService;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.example.authorizationservice.table.validator;
 
 import com.example.authorizationservice.cell.InterfaceElement.table.Column;
 
-import com.example.authorizationservice.table.domain.AvailableFilters;
+import com.example.authorizationservice.cell.InterfaceElement.filter.AvailableFilters;
 import com.example.authorizationservice.user.web.UserController;
 import jakarta.validation.*;
 import lombok.AllArgsConstructor;

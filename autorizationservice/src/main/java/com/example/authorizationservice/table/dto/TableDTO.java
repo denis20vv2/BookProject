@@ -1,16 +1,14 @@
 package com.example.authorizationservice.table.dto;
 
 
-import com.example.authorizationservice.table.domain.Column;
-import com.example.authorizationservice.table.domain.AvailableFilters;
+import com.example.authorizationservice.table.view.Column;
+import com.example.authorizationservice.cell.InterfaceElement.filter.AvailableFilters;
 import com.example.authorizationservice.table.validator.ValidTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.ArrayList;
 import java.util.List;

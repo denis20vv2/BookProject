@@ -1,4 +1,4 @@
-package com.example.authorizationservice.table.domain;
+package com.example.authorizationservice.cell.InterfaceElement.filter;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

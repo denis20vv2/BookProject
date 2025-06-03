@@ -1,10 +1,9 @@
 package com.example.authorizationservice.table.service;
 
-import com.example.authorizationservice.table.domain.InterfaceElement;
+import com.example.authorizationservice.cell.InterfaceElement.InterfaceElement.InterfaceElement;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

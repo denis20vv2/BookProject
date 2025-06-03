@@ -1,5 +1,7 @@
 package com.example.authorizationservice.table.domain;
 
+import com.example.authorizationservice.cell.InterfaceElement.filter.AvailableFilters;
+import com.example.authorizationservice.table.view.Column;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -35,7 +37,7 @@ public class Table {
 
     @NotNull
     @JdbcTypeCode(SqlTypes.JSON)
-    private List<Column> columns;
+    private List<com.example.authorizationservice.table.view.Column> columns;
 
     @NotNull
     @JdbcTypeCode(SqlTypes.JSON)

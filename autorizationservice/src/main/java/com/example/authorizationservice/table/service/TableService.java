@@ -4,9 +4,9 @@ import com.example.authorizationservice.cell.InterfaceElement.checkbox.Checkbox;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.Dropdown;
 import com.example.authorizationservice.cell.InterfaceElement.textBlock.TextBlock;
 import com.example.authorizationservice.table.converter.TableToListTableViewConverter;
-import com.example.authorizationservice.table.domain.Column;
-import com.example.authorizationservice.table.domain.Filter;
-import com.example.authorizationservice.table.domain.InterfaceElement;
+import com.example.authorizationservice.table.view.Column;
+import com.example.authorizationservice.cell.InterfaceElement.filter.Filter;
+import com.example.authorizationservice.cell.InterfaceElement.InterfaceElement.InterfaceElement;
 import com.example.authorizationservice.table.dto.TableDTO;
 import com.example.authorizationservice.table.rep.TableRep;
 import com.example.authorizationservice.table.view.TableView;
@@ -20,7 +20,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.example.authorizationservice.table.domain.Table;
 import org.webjars.NotFoundException;
-import org.springframework.data.domain.Page;
 
 
 import java.util.*;
@@ -85,7 +84,6 @@ public class TableService {
         columns.removeIf(column -> filter.equals(column.getAccessor()));
         return columns;
     }
-
 
     public Table saveElement(InterfaceElement newComponent) {
         String receivedId = newComponent.getId();

@@ -3,7 +3,7 @@ package com.example.authorizationservice.table.service;
 import com.example.authorizationservice.cell.InterfaceElement.checkbox.Checkbox;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.Dropdown;
 import com.example.authorizationservice.cell.InterfaceElement.textBlock.TextBlock;
-import com.example.authorizationservice.table.domain.InterfaceElement;
+import com.example.authorizationservice.cell.InterfaceElement.InterfaceElement.InterfaceElement;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
