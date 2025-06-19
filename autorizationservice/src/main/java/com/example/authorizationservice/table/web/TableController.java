@@ -110,4 +110,15 @@ public class TableController {
         return tableService.getAllTables(page, size);
     }
 
+    @GetMapping("/getConstructorPage")
+    @ResponseBody
+    @Operation(
+            summary = "Запрос на получение страницы конструктора",
+            description = "Запрос на получение страницы конструктора"
+    )
+    public Table getConstructorPage() {
+        logger.info("Запрос на получение страницы конструктора:");
+        return tableService.getConstructorPage();
+    }
+
 }

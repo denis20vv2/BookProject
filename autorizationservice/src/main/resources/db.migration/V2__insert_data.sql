@@ -53,5 +53,17 @@ INSERT INTO "table" (id, name, data, columns, available_filters, applied_filters
     NULL
 );
 
+INSERT INTO "table" (id, name, data, columns, available_filters, applied_filters) VALUES
+(
+  0,
+  'Table2',
+  '[{"col1":{"id":null,"type":"DROPDOWN","value":null,"active":null,"optionsList":null},"col2":{"id":null,"type":"INPUT","value":null},"col3":{"id":null,"type":"CHECKBOX","value":null}}]',
+  '[{"accessor":"col1","header":"Column 1"},{"accessor":"col2","header":"Column 2"},{"accessor":"col3","header":"Column 3"}]',
+  '{"name":"filterGroup1","label":null,"filters":[{"name":"filter_1","type":null,"label":null}]}',
+  NULL
+);
+
+
+
 
 SELECT setval('table_seq', 15);

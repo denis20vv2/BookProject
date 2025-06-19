@@ -9,7 +9,7 @@ import com.example.authorizationservice.cell.InterfaceElement.checkbox.StyleChec
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.Option;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.StyleDropdown;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.ValidationDropdown;
-import com.example.authorizationservice.cell.InterfaceElement.filters.*;
+//import com.example.authorizationservice.cell.InterfaceElement.filters.*;
 import com.example.authorizationservice.cell.InterfaceElement.form.Field;
 import com.example.authorizationservice.cell.InterfaceElement.form.Submit;
 import com.example.authorizationservice.cell.InterfaceElement.link.Icon;
@@ -59,9 +59,9 @@ public class NestedValidator implements ConstraintValidator<NestedValid, Object>
                         // Валидация для каждого типа объекта с использованием instanceof
                         if (object instanceof Option) {
                             return validateOption((Option) object, context);
-                        } else if (object instanceof FilterData) {
+                        }/* else if (object instanceof FilterData) {
                             return validateFilterData((FilterData) object, context);
-                        }else if (object instanceof StyleDropdown) {
+                        }*/else if (object instanceof StyleDropdown) {
                             return validateStyleDropdown((StyleDropdown) object, context);
                         } else if (object instanceof Field) {
                             return validateField((Field) object, context);
@@ -86,10 +86,10 @@ public class NestedValidator implements ConstraintValidator<NestedValid, Object>
             } else if (object instanceof Submit) {
                 Submit submit = (Submit) object;
                 return validateSubmit(submit, context);
-            } else if (object instanceof Value) {
+            } /*else if (object instanceof Value) {
                 Value value = (Value) object;
                 return validateValue(value, context);
-            } else if (object instanceof Validation) {
+            }*/ else if (object instanceof Validation) {
                 Validation validation = (Validation) object;
                 return validateValidation(validation, context);
             } else if (object instanceof Icon) {
@@ -120,14 +120,14 @@ public class NestedValidator implements ConstraintValidator<NestedValid, Object>
                 StyleRadio styleRadio = (StyleRadio) object;
                 return validateStyleRadio(styleRadio, context);
 
-            }else if (object instanceof ActionFilter) {
+            }/*else if (object instanceof ActionFilter) {
                 ActionFilter actionFilter = (ActionFilter) object;
                 return validateActionFilter(actionFilter, context);
 
             }else if (object instanceof ExistAction) {
                 ExistAction existAction = (ExistAction) object;
                 return validateExistAction(existAction, context);
-            }else if (object instanceof StyleTextBlock) {
+            }*/else if (object instanceof StyleTextBlock) {
                 StyleTextBlock styleTextBlock = (StyleTextBlock) object;
                 return validateStyleTextBlock(styleTextBlock, context);
             }else if (object instanceof ContainerStyle) {
@@ -192,17 +192,17 @@ public class NestedValidator implements ConstraintValidator<NestedValid, Object>
         return handleViolations(violations, context);
     }
 
-    private boolean validateActionFilter(ActionFilter actionFilter, ConstraintValidatorContext context) {
+    /*private boolean validateActionFilter(ActionFilter actionFilter, ConstraintValidatorContext context) {
         logger.info("Before Validation - actionFilter: {}", actionFilter);
         Set<ConstraintViolation<ActionFilter>> violations = validator.validate(actionFilter);
         return handleViolations(violations, context);
     }
-
-    private boolean validateExistAction(ExistAction existAction, ConstraintValidatorContext context) {
+*/
+    /*private boolean validateExistAction(ExistAction existAction, ConstraintValidatorContext context) {
         logger.info("Before Validation - actionFilter: {}", existAction);
         Set<ConstraintViolation<ExistAction>> violations = validator.validate(existAction);
         return handleViolations(violations, context);
-    }
+    }*/
 
     private boolean validateStyleRadio(StyleRadio styleRadio, ConstraintValidatorContext context) {
         logger.info("Before Validation - styleRadio: {}", styleRadio);
@@ -222,11 +222,11 @@ public class NestedValidator implements ConstraintValidator<NestedValid, Object>
         return handleViolations(violations, context);
     }
 
-    private boolean validateFilter(Filter filter, ConstraintValidatorContext context) {
+   /* private boolean validateFilter(Filter filter, ConstraintValidatorContext context) {
         logger.info("Before Validation - filter: {}", filter);
         Set<ConstraintViolation<Filter>> violations = validator.validate(filter);
         return handleViolations(violations, context);
-    }
+    }*/
 
     private boolean validateStyle(Style style, ConstraintValidatorContext context) {
         logger.info("Before Validation - style: {}", style);
@@ -252,11 +252,11 @@ public class NestedValidator implements ConstraintValidator<NestedValid, Object>
         return handleViolations(violations, context);
     }
 
-    private boolean validateValue(Value value, ConstraintValidatorContext context) {
+    /*private boolean validateValue(Value value, ConstraintValidatorContext context) {
         logger.info("Before Validation - value: {}", value);
         Set<ConstraintViolation<Value>> violations = validator.validate(value);
         return handleViolations(violations, context);
-    }
+    }*/
 
     /*private boolean validateField(Field field, ConstraintValidatorContext context) {
         logger.info("Before Validation - field: {}", field);
@@ -312,11 +312,11 @@ public class NestedValidator implements ConstraintValidator<NestedValid, Object>
         return handleViolations(violations, context);
     }
 
-    private boolean validateFilterData (FilterData filterData, ConstraintValidatorContext context){
+    /*private boolean validateFilterData (FilterData filterData, ConstraintValidatorContext context){
         logger.info("Before Validation - filterData: {}", filterData);
         Set<ConstraintViolation<FilterData>> violations = validator.validate(filterData);
         return handleViolations(violations, context);
-    }
+    }*/
 
     private boolean validateField (Field field, ConstraintValidatorContext context){
         logger.info("Before Validation - field: {}", field);

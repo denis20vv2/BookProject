@@ -55,6 +55,7 @@ public class TableService {
 
             Table existingTable = getTable(table.getId());
 
+
             existingTable.setAppliedFilters(table.getAppliedFilters());
 
             tableRep.save(existingTable);
@@ -62,9 +63,31 @@ public class TableService {
         if(table.getAppliedFilters() != null) {
 
             List<Filter> filters = table.getAppliedFilters().getFilters();
-
+            List<Filter> applicableFilters = filters;
             List<Map<String, Object>> data = existingTable.getData();
             List<Column> columns = existingTable.getColumns();
+
+            List<Column> applicableColumns = columns;
+
+
+/*
+            boolean flag = false;
+
+            for (Filter filter : filters) {
+
+                for(Column applicableColumn: applicableColumns) {
+                    if (filter.getLabel() == applicableColumns.getAccessor()){
+                        flag = true;
+                        break;
+                    }
+
+                    if (flag != true){
+                        applicableFilters
+                    }
+
+                }
+
+            }*/
 
             for (Filter filter : filters) {
 
@@ -81,7 +104,7 @@ public class TableService {
 
     public List<Column> getColumnData(List<Column> columns, String filter ){
 
-        columns.removeIf(column -> filter.equals(column.getAccessor()));
+        columns.removeIf(column -> !filter.equals(column.getAccessor()));
         return columns;
     }
 
@@ -186,12 +209,26 @@ public class TableService {
     public List<Map<String, Object>> getFilteredData(List<Map<String, Object>> data, String filter){
 
 
-        for (Map<String, Object> row : data) {
+        /*for (Map<String, Object> row : data) {
 
             row.remove(filter);
+        }*/
+
+        for (Map<String, Object> row : data) {
+            // Оставляем только ключи, совпадающие с filter
+            row.keySet().removeIf(key -> !key.equals(filter));
         }
 
         return data;
     }
+
+    public Table getConstructorPage(){
+
+        Table table = tableRep.findById(0L)
+                .orElseThrow(() -> new NotFoundException("ошибка получения страницы конструктора"));
+
+        return table;
+    }
+
 
 }

@@ -56,7 +56,7 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/setRole/{userId}")
+    @PutMapping("/setRole/{userId}")
     @ResponseBody
     @Operation(
             summary = "Изменение роли",

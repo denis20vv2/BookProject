@@ -14,9 +14,9 @@ import com.example.authorizationservice.cell.InterfaceElement.checkbox.CheckboxC
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.Dropdown;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.DropdownConverter;
 import com.example.authorizationservice.cell.InterfaceElement.dropdown.Option;
-import com.example.authorizationservice.cell.InterfaceElement.filters.Filter;
-import com.example.authorizationservice.cell.InterfaceElement.filters.FilterConverter;
-import com.example.authorizationservice.cell.InterfaceElement.filters.FilterData;
+//import com.example.authorizationservice.cell.InterfaceElement.filters.Filter;
+//import com.example.authorizationservice.cell.InterfaceElement.filters.FilterConverter;
+//import com.example.authorizationservice.cell.InterfaceElement.filters.FilterData;
 import com.example.authorizationservice.cell.InterfaceElement.form.Form;
 import com.example.authorizationservice.cell.InterfaceElement.form.FormConverter;
 import com.example.authorizationservice.cell.InterfaceElement.link.Link;
@@ -56,7 +56,7 @@ public class DataValidator implements ConstraintValidator<ValidData, Data> {
     private final ObjectMapper objectMapper;
     private final ButtonConverter buttonConverter;
     private final DropdownConverter dropdownConverter;
-    private final FilterConverter filterConverter;
+    //private final FilterConverter filterConverter;
     private final CheckboxConverter checkboxConverter;
     private final FormConverter formConverter;
     private final LinkConverter linkConverter;
@@ -149,9 +149,9 @@ public class DataValidator implements ConstraintValidator<ValidData, Data> {
                 case "Dropdown":
                     Dropdown dropdown = dropdownConverter.convertToDropdown(dataMap);
                     return validateDropdown(dropdown, context);
-                case "Filter":
+                /*case "Filter":
                     Filter filter = filterConverter.convertToFilter(dataMap);
-                    return validateFilter(filter, context);
+                    return validateFilter(filter, context);*/
                 case "Form":
                     Form form = formConverter.convertToForm(dataMap);
                     return validateForm(form, context);
@@ -227,11 +227,11 @@ public class DataValidator implements ConstraintValidator<ValidData, Data> {
         return handleViolations(violations, context);
     }
 
-    private boolean validateFilter(Filter filter, ConstraintValidatorContext context) {
+    /*private boolean validateFilter(Filter filter, ConstraintValidatorContext context) {
         logger.info("Before Validation - filter: {}", filter);
         Set<ConstraintViolation<Filter>> violations = validator.validate(filter);
         return handleViolations(violations, context);
-    }
+    }*/
 
     private boolean validateForm(Form form, ConstraintValidatorContext context) {
         logger.info("Before Validation - form: {}", form);
